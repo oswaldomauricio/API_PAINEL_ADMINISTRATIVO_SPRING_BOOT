@@ -1,6 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,6 +27,12 @@ public class User implements UserDetails {
     private String login;
     @Column(nullable = false)
     private String senha;
+
+    public User(String login, String senha) {
+        this.id = null;
+        this.login = login;
+        this.senha = senha;
+    }
 
     public Long getId() {
         return id;
