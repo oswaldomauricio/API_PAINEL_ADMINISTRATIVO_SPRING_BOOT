@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,11 +28,14 @@ public class User implements UserDetails {
     private String login;
     @Column(nullable = false)
     private String senha;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
     public User(String login, String senha) {
         this.id = null;
         this.login = login;
         this.senha = senha;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Long getId() {
