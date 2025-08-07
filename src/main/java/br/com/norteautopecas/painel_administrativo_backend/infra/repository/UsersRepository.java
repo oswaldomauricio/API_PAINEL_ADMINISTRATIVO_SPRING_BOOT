@@ -1,7 +1,6 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.repository.user;
+package br.com.norteautopecas.painel_administrativo_backend.infra.repository;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

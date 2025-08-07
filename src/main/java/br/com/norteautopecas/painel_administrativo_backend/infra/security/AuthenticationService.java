@@ -1,6 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.security;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.user.UsersRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

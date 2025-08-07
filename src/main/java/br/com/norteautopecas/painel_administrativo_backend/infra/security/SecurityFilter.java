@@ -1,6 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.security;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.user.UsersRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

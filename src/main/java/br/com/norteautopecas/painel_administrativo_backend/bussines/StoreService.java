@@ -1,11 +1,14 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListStoreByUserDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListStoreInformationDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.RegisterStoreDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.StoreRegistrationDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Store;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.user.StoreRepository;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.user.UsersRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StoreInformation;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreInformationRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +22,11 @@ public class StoreService {
     private StoreRepository storeRepository;
 
     @Autowired
+    private StoreInformationRepository storeInformationRepository;
+
+    @Autowired
     private UsersRepository usersRepository;
+
 
     public StoreRegistrationDetailsDTO registerStore(RegisterStoreDTO dados) {
         if (storeRepository.countByUserIdAndLoja(dados.idUser(),
@@ -52,5 +59,31 @@ public class StoreService {
                         s.getUser().getLogin(),
                         s.getLoja()))
                 .collect(Collectors.toList());
+    }
+
+    public List<ListStoreInformationDTO> getAllStores() {
+        var stores = storeInformationRepository.findAll();
+        if (stores.isEmpty()) {
+            throw new ValidateException("Nenhuma loja encontrada.");
+        }
+
+        return stores.stream()
+                .map(store -> new ListStoreInformationDTO(
+                        store.getLoja(),
+                        store.getNomeLoja(),
+                        store.getEnderecoLoja(),
+                        store.getEstado(),
+                        store.getSigla(),
+                        store.getCidade(),
+                        store.getEmail(),
+                        store.getLatitude(),
+                        store.getLongitude(),
+                        store.getSegmentacao(),
+                        store.getSegmentacao2(),
+                        store.getTelefone(),
+                        store.getWhatsapp(),
+                        store.getHorario()))
+                .collect(Collectors.toList());
+
     }
 }
