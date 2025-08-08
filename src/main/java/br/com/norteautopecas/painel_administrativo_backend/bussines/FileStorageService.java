@@ -3,19 +3,26 @@ package br.com.norteautopecas.painel_administrativo_backend.bussines;
 import java.nio.file.*;
 
 import br.com.norteautopecas.painel_administrativo_backend.config.FileStorageConfig;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.UploadFileResponseDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketFiles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileNotFoundException;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileStorageException;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketFilesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.nio.file.Path;
 
 @Service
 public class FileStorageService {
+
+    @Autowired
+    private TicketFilesRepository ticketFilesRepository;
 
     private final Path fileStorageLocation;
 
@@ -33,7 +40,7 @@ public class FileStorageService {
 
     }
 
-    public String storeFile(MultipartFile file) {
+    public UploadFileResponseDTO storeFile(MultipartFile file, Long ticketId) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
@@ -47,7 +54,19 @@ public class FileStorageService {
             Files.copy(file.getInputStream(), targetLocation,
                     StandardCopyOption.REPLACE_EXISTING);
 
-            return fileName;
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/v1/file/downloadFile/")
+                    .path(ticketId + "/")
+                    .path(fileName)
+                    .toUriString();
+
+            TicketFiles ticketFile = new TicketFiles(ticketId, fileName, file.getSize(), fileDownloadUri);
+            ticketFilesRepository.save(ticketFile);
+
+
+            return new UploadFileResponseDTO(fileName, fileDownloadUri,
+                    file.getContentType(), file.getSize());
+
         } catch (Exception e) {
             throw new FileStorageException("Não foi possível armazenar o arquivo"
                     + fileName + "por favor, tente novamente!"
