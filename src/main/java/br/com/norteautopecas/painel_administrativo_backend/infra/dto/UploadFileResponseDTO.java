@@ -1,8 +1,12 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 public record UploadFileResponseDTO(
         String fileName,
+        @JsonAlias("url_download")
         String fileDownloadUri,
+        @JsonAlias("file_type")
         String fileType,
         Long size
 ) {
