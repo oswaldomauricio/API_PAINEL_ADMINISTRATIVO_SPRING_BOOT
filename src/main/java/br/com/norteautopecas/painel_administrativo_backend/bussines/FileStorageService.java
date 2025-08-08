@@ -43,13 +43,20 @@ public class FileStorageService {
     public UploadFileResponseDTO storeFile(MultipartFile file, Long ticketId) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        try {
-            if (fileName.contains("..")) {
-                throw new FileStorageException(
-                        "Desculpe, o nome do arquivo contém caracteres " +
-                                "inválidos: " + fileName);
-            }
+        if (fileName.contains("..")) {
+            throw new FileStorageException("Desculpe, o nome do arquivo contém caracteres inválidos: " + fileName);
+        }
 
+        if (fileName.isEmpty()) {
+            throw new FileStorageException("Desculpe, o nome do arquivo não pode ser vazio.");
+        }
+
+        if (ticketFilesRepository.existsByTicketIdAndFileName(ticketId, fileName)) {
+            throw new FileStorageException("Desculpe, já existe um arquivo com o nome: "
+                    + fileName + " para o ticket de id: " + ticketId);
+        }
+
+        try {
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation,
                     StandardCopyOption.REPLACE_EXISTING);
@@ -68,8 +75,8 @@ public class FileStorageService {
                     file.getContentType(), file.getSize());
 
         } catch (Exception e) {
-            throw new FileStorageException("Não foi possível armazenar o arquivo"
-                    + fileName + "por favor, tente novamente!"
+            throw new FileStorageException("Não foi possível armazenar o " +
+                    "arquivo " + fileName + "por favor, tente novamente!"
                     , e);
         }
     }

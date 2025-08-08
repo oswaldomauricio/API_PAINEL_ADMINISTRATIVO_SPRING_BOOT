@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface TicketFilesRepository extends JpaRepository<TicketFiles, Long> {
 
     Optional<TicketFiles> findByTicketIdAndFileName(Long ticketId, String fileName);
+
+    boolean existsByTicketIdAndFileName(Long ticketId, String fileName);
 }
