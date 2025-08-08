@@ -72,4 +72,14 @@ public class FileStorageService {
         }
     }
 
+    public boolean deleteFile(String fileName) {
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            return Files.deleteIfExists(filePath);
+        } catch (Exception e) {
+            throw new FileStorageException("Erro ao deletar o arquivo: " + fileName, e);
+        }
+    }
+
+
 }
