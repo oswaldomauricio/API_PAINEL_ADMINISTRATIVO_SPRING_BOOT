@@ -56,6 +56,12 @@ public class FileStorageService {
                     + fileName + " para o ticket de id: " + ticketId);
         }
 
+        if (ticketFilesRepository.existsByFileName(fileName)) {
+            throw new FileStorageException("Desculpe, já existe um arquivo com o nome: "
+                    + fileName + " altere o nome do arquivo e tente " +
+                    "novamente!");
+        }
+
         try {
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation,
