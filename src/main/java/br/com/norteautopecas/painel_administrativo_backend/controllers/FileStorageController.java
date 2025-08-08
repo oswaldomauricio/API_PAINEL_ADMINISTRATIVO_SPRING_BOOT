@@ -5,6 +5,7 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.dto.UploadFileR
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketFiles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileNotFoundException;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketFilesRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/file")
+@SecurityRequirement(name = "bearer-key")
 public class FileStorageController {
     @Autowired
     private FileStorageService fileStorageService;
