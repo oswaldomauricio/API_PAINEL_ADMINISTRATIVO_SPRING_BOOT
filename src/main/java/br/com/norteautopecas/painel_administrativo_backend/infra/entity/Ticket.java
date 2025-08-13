@@ -1,20 +1,18 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-@Embeddable
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class Ticket {
 
     @ManyToOne
@@ -33,11 +31,39 @@ public class Ticket {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
+    @Setter
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.NOVO;
+
     @CreationTimestamp
-    private LocalDateTime dataSolicitacao;
+    private LocalDateTime dataSolicitacao = LocalDateTime.now();
 
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
+
+
+    public Ticket(
+            StoreInformation loja,
+            String fornecedor,
+            String cpfCnpj,
+            String nota,
+            String descricao,
+            LocalDateTime dataSolicitacao,
+            LocalDateTime dataAtualizacao,
+            Long diasEmAberto,
+            Status status
+    ) {
+        this.loja = loja;
+        this.fornecedor = fornecedor;
+        this.cpfCnpj = cpfCnpj;
+        this.nota = nota;
+        this.descricao = descricao;
+        this.dataSolicitacao = dataSolicitacao;
+        this.dataAtualizacao = dataAtualizacao;
+        this.getDiasEmAberto();
+        this.status = Status.NOVO;
+    }
 
     @Transient
     public long getDiasEmAberto() {
@@ -71,4 +97,11 @@ public class Ticket {
     public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+
 }
+
