@@ -86,4 +86,13 @@ public class StoreService {
                 .collect(Collectors.toList());
 
     }
+
+    public StoreInformation getStoreByLoja(Integer loja) {
+        var store = storeInformationRepository.findByLoja(loja);
+        if (store == null || store.getLoja() == null) {
+            throw new ValidateException("Loja não encontrada com o número: " + loja);
+        }
+
+        return store;
+    }
 }
