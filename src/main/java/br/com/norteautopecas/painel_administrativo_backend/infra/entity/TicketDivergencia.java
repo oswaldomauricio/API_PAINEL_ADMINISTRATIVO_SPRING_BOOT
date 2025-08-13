@@ -13,7 +13,6 @@ import java.util.List;
 @Entity(name = "Divergencia")
 @Table(name = "ticket_divergencia")
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class TicketDivergencia {
@@ -31,6 +30,17 @@ public class TicketDivergencia {
 
     @OneToMany(mappedBy = "ticketDivergencia", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
+
+    public TicketDivergencia(
+            Long id,
+            Ticket ticket,
+            User usuario,
+            List<Produto> produtos
+    ) {
+        this.id = null;
+        this.ticket = ticket;
+        this.usuario = usuario;
+    }
 
     public Long getId() {
         return id;

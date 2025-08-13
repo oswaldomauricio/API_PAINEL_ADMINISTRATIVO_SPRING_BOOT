@@ -2,12 +2,10 @@ package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Produto;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StoreInformation;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Ticket;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketGarantia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreInformationRepository;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreRepository;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketGarantiaRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TicketGarantiaService {
+public class TicketDivergenciaService {
 
     @Autowired
-    private TicketGarantiaRepository ticketGarantiaRepository;
+    private TicketDivergenciaRepository ticketDivergenciaRepository;
 
     @Autowired
     private StoreInformationRepository storeInformationRepository;
@@ -31,7 +29,7 @@ public class TicketGarantiaService {
     @Autowired
     private UsersRepository usersRepository;
 
-    public TicketGarantiaDetailsDTO cadastrarTicket(TicketGarantiaCreateDTO dados) {
+    public TicketDivergenciaDetailsDTO cadastrarTicket(TicketDivergenciaCreateDTO dados) {
         var loja = storeInformationRepository.findByLoja(dados.loja());
 
         var usuarioCadastroTicket = usersRepository.findById(dados.usuarioId())
@@ -62,34 +60,32 @@ public class TicketGarantiaService {
                 })
                 .toList();
 
-        TicketGarantia ticketGarantia = new TicketGarantia(
+        TicketDivergencia ticketDivergencia = new TicketDivergencia(
                 null,
-                dados.nomeCliente(),
                 ticket,
                 usuarioCadastroTicket,
                 new ArrayList<>()
         );
 
-        TicketGarantia finalTicketGarantia = ticketGarantia;
-        produtos.forEach(p -> p.setTicketGarantia(finalTicketGarantia));
-        ticketGarantia.getProdutos().addAll(produtos);
+        TicketDivergencia finalTicketDivergencia = ticketDivergencia;
+        produtos.forEach(p -> p.setTicketDivergencia(finalTicketDivergencia));
+        ticketDivergencia.getProdutos().addAll(produtos);
 
-        ticketGarantia = ticketGarantiaRepository.save(ticketGarantia);
+        ticketDivergencia = ticketDivergenciaRepository.save(ticketDivergencia);
 
-        return new TicketGarantiaDetailsDTO(
-                ticketGarantia.getId(),
-                ticketGarantia.getNomeCliente(),
+        return new TicketDivergenciaDetailsDTO(
+                ticketDivergencia.getId(),
                 dados.loja(),
-                ticketGarantia.getTicket().getFornecedor(),
-                ticketGarantia.getTicket().getCpfCnpj(),
-                ticketGarantia.getTicket().getNota(),
-                ticketGarantia.getTicket().getDescricao(),
+                ticketDivergencia.getTicket().getFornecedor(),
+                ticketDivergencia.getTicket().getCpfCnpj(),
+                ticketDivergencia.getTicket().getNota(),
+                ticketDivergencia.getTicket().getDescricao(),
                 usuarioCadastroTicket.getLogin(),
-                ticketGarantia.getTicket().getDataSolicitacao(),
-                ticketGarantia.getTicket().getDataAtualizacao(),
-                ticketGarantia.getTicket().getDiasEmAberto(),
-                ticketGarantia.getTicket().getStatus(),
-                ticketGarantia.getProdutos().stream()
+                ticketDivergencia.getTicket().getDataSolicitacao(),
+                ticketDivergencia.getTicket().getDataAtualizacao(),
+                ticketDivergencia.getTicket().getDiasEmAberto(),
+                ticketDivergencia.getTicket().getStatus(),
+                ticketDivergencia.getProdutos().stream()
                         .map(p -> new ProdutoCreateDTO(
                                 p.getCodigoProduto(),
                                 p.getQuantidade(),
