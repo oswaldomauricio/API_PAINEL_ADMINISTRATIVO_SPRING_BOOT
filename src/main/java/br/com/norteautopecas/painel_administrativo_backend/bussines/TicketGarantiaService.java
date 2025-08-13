@@ -9,7 +9,9 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.repository.Stor
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketGarantiaRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -55,7 +57,7 @@ public class TicketGarantiaService {
                             produtoDTO.codigoProduto(),
                             produtoDTO.quantidade(),
                             null,
-                            null,
+                            produtoDTO.valorUnitario(),
                             null
                     );
                     return produto;
@@ -79,7 +81,7 @@ public class TicketGarantiaService {
         return new TicketGarantiaDetailsDTO(
                 ticketGarantia.getId(),
                 ticketGarantia.getNomeCliente(),
-                dados.loja(),
+                ticketGarantia.getTicket().getLoja().getLoja(),
                 ticketGarantia.getTicket().getFornecedor(),
                 ticketGarantia.getTicket().getCpfCnpj(),
                 ticketGarantia.getTicket().getNota(),
@@ -98,6 +100,48 @@ public class TicketGarantiaService {
                         ))
                         .toList()
         );
+    }
+
+    public ResponseEntity<TicketGarantiaDetailsDTO> buscarTicketPorId(Long id) {
+
+        if (id == null || id <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        TicketGarantia ticketGarantia = ticketGarantiaRepository.findById(id)
+                .orElseThrow(() -> new ValidateException("Ticket de garantia com id " + id + " não encontrado"));
+
+        if (ticketGarantia == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        StoreInformation lojaInfo = ticketGarantia.getTicket() != null
+                ? ticketGarantia.getTicket().getLoja()
+                : null;
+
+        Integer numeroLoja = (lojaInfo != null) ? lojaInfo.getLoja() : null;
+
+        return ResponseEntity.ok(new TicketGarantiaDetailsDTO(
+                ticketGarantia.getId(),
+                ticketGarantia.getNomeCliente(),
+                numeroLoja,
+                ticketGarantia.getTicket().getFornecedor(),
+                ticketGarantia.getTicket().getCpfCnpj(),
+                ticketGarantia.getTicket().getNota(),
+                ticketGarantia.getTicket().getDescricao(),
+                ticketGarantia.getUsuario().getLogin(),
+                ticketGarantia.getTicket().getDataSolicitacao(),
+                ticketGarantia.getTicket().getDataAtualizacao(),
+                ticketGarantia.getTicket().getDiasEmAberto(),
+                ticketGarantia.getTicket().getStatus(),
+                ticketGarantia.getProdutos().stream()
+                        .map(p -> new ProdutoCreateDTO(
+                                p.getCodigoProduto(),
+                                p.getQuantidade(),
+                                p.getTipo(),
+                                p.getValorUnitario()
+                        ))
+                        .toList()
+        ));
     }
 
 

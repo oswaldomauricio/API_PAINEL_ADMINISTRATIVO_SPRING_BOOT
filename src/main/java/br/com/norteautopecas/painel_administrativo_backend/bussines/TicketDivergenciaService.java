@@ -52,7 +52,7 @@ public class TicketDivergenciaService {
                     Produto produto = new Produto(
                             produtoDTO.codigoProduto(),
                             produtoDTO.quantidade(),
-                            null,
+                            produtoDTO.tipo(),
                             null,
                             null
                     );
