@@ -32,8 +32,35 @@ public class TicketDivergencia {
     @OneToMany(mappedBy = "ticketDivergencia", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "ticketDivergencia", cascade = CascadeType.ALL)
-//    private List<Arquivo> arquivos = new ArrayList<>();
+    public Long getId() {
+        return id;
+    }
 
-    // Getters e setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public User getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(User usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
 }
