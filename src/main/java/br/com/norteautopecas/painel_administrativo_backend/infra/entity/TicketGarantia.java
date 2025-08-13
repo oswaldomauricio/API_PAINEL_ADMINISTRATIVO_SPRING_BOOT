@@ -12,7 +12,6 @@ import java.util.List;
 @Entity(name = "Garantia")
 @Table(name = "ticket_garantia")
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class TicketGarantia {
@@ -33,9 +32,18 @@ public class TicketGarantia {
     @OneToMany(mappedBy = "ticketGarantia", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "ticketGarantia", cascade = CascadeType.ALL)
-//    private List<Arquivo> arquivos = new ArrayList<>();
-
+    public TicketGarantia(
+            Long id,
+            String nomeCliente,
+            Ticket ticket,
+            User usuario,
+            List<Produto> produtos
+    ) {
+        this.id = null;
+        this.nomeCliente = nomeCliente;
+        this.ticket = ticket;
+        this.usuario = usuario;
+    }
 
     public Long getId() {
         return id;
