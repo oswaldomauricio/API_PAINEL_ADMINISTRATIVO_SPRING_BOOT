@@ -29,6 +29,10 @@ public class Produto {
     @ManyToOne
     private TicketDivergencia ticketDivergencia;
 
+    public Produto() {
+
+    }
+
     public Produto(
             String codigoProduto,
             Integer quantidade,
