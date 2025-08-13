@@ -89,7 +89,7 @@ public class StoreService {
 
     public StoreInformation getStoreByLoja(Integer loja) {
         var store = storeInformationRepository.findByLoja(loja);
-        if (store == null || store.getLoja() == null) {
+        if (store == null) {
             throw new ValidateException("Loja não encontrada com o número: " + loja);
         }
 
