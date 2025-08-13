@@ -36,7 +36,7 @@ public record TicketGarantiaCreateDTO(
         @Min(value = 1, message = "O ID do usuário deve ser maior que 0")
         Long usuarioId,
 
-        @NotBlank(message = "Não é possível criar um ticket sem produtos")
+        @NotEmpty(message = "Não é possível criar um ticket sem produtos")
         List<ProdutoCreateDTO> produtos
 ) {
 
