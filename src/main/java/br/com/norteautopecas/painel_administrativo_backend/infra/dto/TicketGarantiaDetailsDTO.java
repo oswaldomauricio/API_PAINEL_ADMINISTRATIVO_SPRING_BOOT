@@ -1,6 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Status;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Store;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StoreInformation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
@@ -14,7 +15,7 @@ public record TicketGarantiaDetailsDTO(
 
         String nomeCliente,
 
-        String loja,
+        Integer loja,
 
         String fornecedor,
 
@@ -27,7 +28,7 @@ public record TicketGarantiaDetailsDTO(
         String descricao,
 
         @JsonProperty("usuario_cadastro")
-        Long usuarioCadastro,
+        String usuarioCadastro,
 
         @JsonProperty("data_solicitacao")
         LocalDateTime dataSolicitacao,
