@@ -8,12 +8,14 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/ticket-garantia")
@@ -32,5 +34,26 @@ public class TicketGarantiaController {
 
         return ResponseEntity.created(location).body(ticketGarantiaDetails);
 
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<TicketGarantiaDetailsDTO>> consultarTickets(
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<TicketGarantiaDetailsDTO> ticketsPaginados = ticketGarantiaService.buscarTodosTickets(pageable);
+        return ResponseEntity.ok(ticketsPaginados);
+    }
+
+    @GetMapping("/loja/{loja}")
+    public ResponseEntity<Page<TicketGarantiaDetailsDTO>> consultarTicketsPorLoja(
+            @PathVariable Integer loja,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        return ResponseEntity.ok(ticketGarantiaService.buscarTicketsPorLoja(loja, pageable));
+    }
+
+    @GetMapping({"/{id}"})
+    public ResponseEntity<TicketGarantiaDetailsDTO> consultarTicketPorId(@PathVariable Long id) {
+        return ticketGarantiaService.buscarTicketPorId(id);
     }
 }
