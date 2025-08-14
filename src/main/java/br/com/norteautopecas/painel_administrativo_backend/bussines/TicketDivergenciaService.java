@@ -1,18 +1,22 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Produto;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Ticket;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.*;
+import br.com.norteautopecas.painel_administrativo_backend.infra.mapper.TicketDivergenciaMapper;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreInformationRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TicketDivergenciaService {
@@ -22,6 +26,9 @@ public class TicketDivergenciaService {
 
     @Autowired
     private StoreInformationRepository storeInformationRepository;
+
+    @Autowired
+    private TicketDivergenciaMapper ticketDivergenciaMapper;
 
     @Autowired
     private StoreService storeService;
@@ -73,27 +80,39 @@ public class TicketDivergenciaService {
 
         ticketDivergencia = ticketDivergenciaRepository.save(ticketDivergencia);
 
-        return new TicketDivergenciaDetailsDTO(
-                ticketDivergencia.getId(),
-                dados.loja(),
-                ticketDivergencia.getTicket().getFornecedor(),
-                ticketDivergencia.getTicket().getCpfCnpj(),
-                ticketDivergencia.getTicket().getNota(),
-                ticketDivergencia.getTicket().getDescricao(),
-                usuarioCadastroTicket.getLogin(),
-                ticketDivergencia.getTicket().getDataSolicitacao(),
-                ticketDivergencia.getTicket().getDataAtualizacao(),
-                ticketDivergencia.getTicket().getDiasEmAberto(),
-                ticketDivergencia.getTicket().getStatus(),
-                ticketDivergencia.getProdutos().stream()
-                        .map(p -> new ProdutoCreateDTO(
-                                p.getCodigoProduto(),
-                                p.getQuantidade(),
-                                p.getTipo(),
-                                p.getValorUnitario()
-                        ))
-                        .toList()
-        );
+        return ticketDivergenciaMapper.toDetailsDTO(ticketDivergencia);
+    }
+
+    public ResponseEntity<TicketDivergenciaDetailsDTO> buscarTicketPorId(Long id) {
+
+        if (id == null || id <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<TicketDivergencia> ticketDivergencia =
+                ticketDivergenciaRepository.findById(id);
+
+        if (ticketDivergencia.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(ticketDivergenciaMapper.toDetailsDTO(ticketDivergencia.get()));
+    }
+
+    public Page<TicketDivergenciaDetailsDTO> buscarTodosTickets(Pageable pageable) {
+        Page<TicketDivergencia> ticketsPage = ticketDivergenciaRepository.findAll(pageable);
+
+        return ticketsPage.map(ticketDivergenciaMapper::toDetailsDTO);
+    }
+
+    public Page<TicketDivergenciaDetailsDTO> buscarTicketsPorLoja(Integer loja, Pageable pageable) {
+        if (loja == null || loja <= 0) {
+            throw new ValidateException("Loja não informada");
+        }
+
+        StoreInformation storeInformation = storeService.getStoreByLoja(loja);
+
+        Page<TicketDivergencia> ticketsPage = ticketDivergenciaRepository.findByTicket_Loja(storeInformation, pageable);
+        return ticketsPage.map(ticketDivergenciaMapper::toDetailsDTO);
     }
 
 
