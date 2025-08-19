@@ -3,14 +3,21 @@ package br.com.norteautopecas.painel_administrativo_backend.bussines;
 import java.nio.file.*;
 
 import br.com.norteautopecas.painel_administrativo_backend.config.FileStorageConfig;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListarFilesPorTicketIdDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketDivergenciaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.UploadFileResponseDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StoreInformation;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketFiles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileNotFoundException;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileStorageException;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketFilesRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -111,6 +118,30 @@ public class FileStorageService {
         } catch (Exception e) {
             throw new FileStorageException("Erro ao deletar o arquivo: " + fileName, e);
         }
+    }
+
+    public Page<ListarFilesPorTicketIdDTO> listarFilesPorTicket(Long ticketId,
+                                                                Pageable pageable) {
+        Page<TicketFiles> ticketFiles = ticketFilesRepository.findByTicketId(ticketId, pageable);
+
+        if (ticketId == null || ticketId <= 0) {
+            throw new ValidateException("Ticket não informado, favor, informe" +
+                    " um ticket valido.");
+        }
+
+        if (ticketFiles.isEmpty()) {
+            if (ticketFiles.isEmpty()) {
+                return Page.empty(pageable);
+            }
+        }
+
+        return ticketFiles.map(tf -> new ListarFilesPorTicketIdDTO(
+                tf.getId(),
+                tf.getFileName(),
+                tf.getFileSize(),
+                tf.getTicketId(),
+                tf.getUrl()
+        ));
     }
 
 

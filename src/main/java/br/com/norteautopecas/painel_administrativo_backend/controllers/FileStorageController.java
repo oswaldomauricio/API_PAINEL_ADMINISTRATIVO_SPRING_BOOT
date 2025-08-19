@@ -1,6 +1,8 @@
 package br.com.norteautopecas.painel_administrativo_backend.controllers;
 
 import br.com.norteautopecas.painel_administrativo_backend.bussines.FileStorageService;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListarFilesPorTicketIdDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketDivergenciaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.UploadFileResponseDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketFiles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileNotFoundException;
@@ -12,6 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -98,6 +104,15 @@ public class FileStorageController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Arquivo não encontrado ou erro ao deletar: " + fileName);
         }
+    }
+
+    @GetMapping("/{ticketId}")
+    public ResponseEntity<Page<ListarFilesPorTicketIdDTO>> consultarTicketsPorLoja(
+            @PathVariable Long ticketId,
+            @PageableDefault(size = 1000, sort = "ticketId", direction =
+                    Sort.Direction.DESC) Pageable pageable) {
+
+        return ResponseEntity.ok(fileStorageService.listarFilesPorTicket(ticketId, pageable));
     }
 
 
