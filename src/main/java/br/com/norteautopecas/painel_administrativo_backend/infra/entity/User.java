@@ -28,6 +28,8 @@ public class User implements UserDetails {
     private String login;
     @Column(nullable = false)
     private String senha;
+    @Column(nullable = false)
+    private String role;
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt;
 
@@ -35,7 +37,16 @@ public class User implements UserDetails {
         this.id = null;
         this.login = login;
         this.senha = senha;
+        this.role = Roles.USER.getRole();
         this.createdAt = LocalDateTime.now();
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Long getId() {

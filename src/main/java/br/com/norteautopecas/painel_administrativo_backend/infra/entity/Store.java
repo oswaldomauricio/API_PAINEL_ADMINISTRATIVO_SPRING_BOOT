@@ -18,7 +18,7 @@ public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "loja", nullable = false, unique = true)
+    @Column(name = "loja", nullable = false)
     private Integer loja;
 
     @ManyToOne(fetch = FetchType.EAGER)

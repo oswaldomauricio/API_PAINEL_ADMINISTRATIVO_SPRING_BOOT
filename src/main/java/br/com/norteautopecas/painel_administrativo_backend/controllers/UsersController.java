@@ -38,7 +38,10 @@ public class UsersController {
         var auth = manager.authenticate(authToken);
         var tokenJWT = tokenService.gerarToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok(new TokenDTO(tokenJWT));
+        var usuario = (User) auth.getPrincipal();
+
+        return ResponseEntity.ok(new TokenDTO(tokenJWT, usuario.getLogin(),
+                usuario.getRole(), usuario.getId()));
 
     }
 
@@ -51,6 +54,6 @@ public class UsersController {
 
         var uri = builder.path("/register/{id}").buildAndExpand(user.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new UserRegistrationDataDTO(user.getId(), user.getLogin()));
+        return ResponseEntity.created(uri).body(new UserRegistrationDataDTO(user.getId(), user.getLogin(), user.getRole()));
     }
 }
