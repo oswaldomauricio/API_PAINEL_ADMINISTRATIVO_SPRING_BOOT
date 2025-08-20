@@ -4,6 +4,7 @@ import br.com.norteautopecas.painel_administrativo_backend.bussines.UsersService
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.AuthenticationDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.RegisterUserDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Roles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
 import br.com.norteautopecas.painel_administrativo_backend.infra.security.TokenDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.security.TokenService;
@@ -14,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -56,4 +54,18 @@ public class UsersController {
 
         return ResponseEntity.created(uri).body(new UserRegistrationDataDTO(user.getId(), user.getLogin(), user.getRole()));
     }
+
+    @PutMapping("/user/alterarRegra/{id}")
+    @Transactional
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<UserRegistrationDataDTO> alterarRegraDeUsuario(
+            @PathVariable Long id,
+            @RequestParam Roles role) {
+
+        UserRegistrationDataDTO dto = usersService.alterarRegraDeUsuario(id, role);
+
+        return ResponseEntity.ok(dto);
+    }
+
+
 }

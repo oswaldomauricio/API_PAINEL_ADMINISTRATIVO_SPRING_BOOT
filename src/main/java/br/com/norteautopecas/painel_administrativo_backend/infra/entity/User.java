@@ -24,30 +24,37 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false, unique = true)
     private String login;
+
     @Column(nullable = false)
     private String senha;
+
     @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Roles role;
+
     private LocalDateTime createdAt = LocalDateTime.now();
+
     private LocalDateTime updatedAt;
 
     public User(String login, String senha) {
         this.id = null;
         this.login = login;
         this.senha = senha;
-        this.role = Roles.USER.getRole();
+        this.role = Roles.ROLE_USER;
         this.createdAt = LocalDateTime.now();
     }
 
-    public String getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
+
 
     public Long getId() {
         return id;
@@ -57,8 +64,20 @@ public class User implements UserDetails {
         return login;
     }
 
-    public String getSenha() {
-        return senha;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
