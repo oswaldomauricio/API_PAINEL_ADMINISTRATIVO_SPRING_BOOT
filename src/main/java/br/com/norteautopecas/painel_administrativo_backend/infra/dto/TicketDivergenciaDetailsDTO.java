@@ -8,16 +8,13 @@ import java.util.List;
 
 public record TicketDivergenciaDetailsDTO(
         Long id,
-        @JsonProperty("nome_cliente")
 
         Integer loja,
 
         String fornecedor,
 
-        @JsonProperty("cpf_cnpj")
         String cpfCnpj,
 
-        @JsonProperty("nota_de_venda")
         String nota,
 
         String descricao,

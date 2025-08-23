@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/lojas")
+@SecurityRequirement(name = "bearer-key")
 public class StoreController {
 
     @Autowired
@@ -28,7 +29,6 @@ public class StoreController {
 
     @PostMapping
     @Transactional
-    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<StoreRegistrationDetailsDTO> registerStore(@RequestBody @Valid RegisterStoreDTO dados, UriComponentsBuilder builder) {
 
         var store = storeService.registerStore(dados);

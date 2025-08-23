@@ -23,6 +23,7 @@ public class TicketGarantia {
     private String nomeCliente;
 
     @Embedded
+    @AttributeOverride(name = "loja", column = @Column(name = "id_loja"))
     private Ticket ticket;
 
     @ManyToOne

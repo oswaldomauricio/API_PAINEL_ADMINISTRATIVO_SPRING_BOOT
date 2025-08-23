@@ -22,6 +22,7 @@ public class TicketDivergencia {
     private Long id;
 
     @Embedded
+    @AttributeOverride(name = "loja", column = @Column(name = "id_loja"))
     private Ticket ticket;
 
     @ManyToOne

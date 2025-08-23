@@ -16,7 +16,6 @@ public record TicketGarantiaDetailsDTO(
 
         String fornecedor,
 
-        @JsonProperty("cpf_cnpj")
         String cpfCnpj,
 
         @JsonProperty("nota_de_venda")
