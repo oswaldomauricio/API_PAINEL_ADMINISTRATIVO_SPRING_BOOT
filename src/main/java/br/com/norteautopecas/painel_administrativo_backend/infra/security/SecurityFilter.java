@@ -24,29 +24,39 @@ public class SecurityFilter extends OncePerRequestFilter {
     private UsersRepository repository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var tokenJWT = recuperarToken(request);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String tokenJWT = recuperarToken(request);
 
         if (tokenJWT != null) {
-            // aqui estamos recuperando o subject do token, que é o login do usuário.
-            var subject = tokenService.getSubject(tokenJWT);
-            var user = repository.findByLogin(subject);
+            try {
+                String subject = tokenService.getSubject(tokenJWT);
+                var user = repository.findByLogin(subject);
 
-            var authentication =
-                    new UsernamePasswordAuthenticationToken(user, null,
-                            user.getAuthorities());
+                if (user == null) {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Usuário não encontrado");
+                    return;
+                }
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                var authentication =
+                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception e) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido ou expirado");
+                return;
+            }
         }
 
         filterChain.doFilter(request, response);
     }
 
     private String recuperarToken(HttpServletRequest request) {
-        var authorization = request.getHeader("Authorization");
-        if (authorization != null) {
-            return authorization.replace("Bearer ", "").trim();
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            return authorization.substring(7).trim();
         }
         return null;
     }
+
 }
