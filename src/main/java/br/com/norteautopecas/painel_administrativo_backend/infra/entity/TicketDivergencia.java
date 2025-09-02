@@ -32,6 +32,9 @@ public class TicketDivergencia {
     @OneToMany(mappedBy = "ticketDivergencia", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "ticketDivergencia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TicketMessage> messages = new ArrayList<>();
+
     public TicketDivergencia(
             Long id,
             Ticket ticket,

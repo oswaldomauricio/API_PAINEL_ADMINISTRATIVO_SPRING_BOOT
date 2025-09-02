@@ -1,8 +1,11 @@
 package br.com.norteautopecas.painel_administrativo_backend.controllers;
 
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketGarantiaService;
+import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketMessageService;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketGarantiaCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketGarantiaDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageDetailsDTO;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,6 +27,8 @@ public class TicketGarantiaController {
 
     @Autowired
     private TicketGarantiaService ticketGarantiaService;
+    @Autowired
+    private TicketMessageService ticketMessage;
 
     @PostMapping
     @Transactional
@@ -56,4 +61,23 @@ public class TicketGarantiaController {
     public ResponseEntity<TicketGarantiaDetailsDTO> consultarTicketPorId(@PathVariable Long id) {
         return ticketGarantiaService.buscarTicketPorId(id);
     }
+
+    @GetMapping({"/mensagem/{id}"})
+    public ResponseEntity<List<TicketMessageDetailsDTO>> listarMensagensPorIdDeGarantia(@PathVariable Long id) {
+        return ResponseEntity.ok(ticketMessage.listarMensagensGarantia(id));
+    }
+
+
+    @PostMapping("/mensagem")
+    @Transactional
+    public ResponseEntity<TicketMessageDetailsDTO> enviarMensagemPorTicketGarantia(@RequestBody @Valid TicketMessageCreateDTO dados) {
+
+        TicketMessageDetailsDTO ticketMessageDetails = ticketMessage.adicionarMensagemGarantia(dados);
+
+        var location = URI.create("/v1/ticket-garantia/mensagem" + ticketMessageDetails.ticketId());
+
+        return ResponseEntity.created(location).body(ticketMessageDetails);
+
+    }
+
 }

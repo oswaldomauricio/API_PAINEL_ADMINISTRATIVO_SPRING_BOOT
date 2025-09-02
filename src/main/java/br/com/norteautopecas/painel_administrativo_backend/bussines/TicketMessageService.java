@@ -1,0 +1,118 @@
+package br.com.norteautopecas.painel_administrativo_backend.bussines;
+
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketGarantiaDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketGarantia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketMessage;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketGarantiaRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketMessageRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+public class TicketMessageService {
+
+    @Autowired
+    private TicketMessageRepository messageRepository;
+    @Autowired
+    private TicketGarantiaRepository garantiaRepository;
+    @Autowired
+    private TicketDivergenciaRepository divergenciaRepository;
+    @Autowired
+    private UsersRepository usersRepository;
+
+
+    public TicketMessageDetailsDTO adicionarMensagemGarantia(TicketMessageCreateDTO dados) {
+        TicketGarantia garantia = garantiaRepository.findById(dados.ticketId())
+                .orElseThrow(() -> new RuntimeException("Ticket Garantia não encontrado"));
+
+        var usuario = usersRepository.findById(dados.id_usuario())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        TicketMessage message = new TicketMessage(garantia,
+                null, usuario, dados.msg(), LocalDateTime.now(),
+                dados.internal());
+
+        TicketMessage ticket = messageRepository.save(message);
+
+        return new TicketMessageDetailsDTO(
+                ticket.getId(),
+                garantia.getId(),
+                new UserRegistrationDataDTO(usuario.getId(), usuario.getLogin(), usuario.getRole()),
+                ticket.getMessage(),
+                ticket.isInternal(),
+                ticket.getTimestamp()
+        );
+    }
+
+    public TicketMessageDetailsDTO adicionarMensagemDivergencia(TicketMessageCreateDTO dados) {
+        TicketDivergencia divergencia = divergenciaRepository.findById(dados.ticketId())
+                .orElseThrow(() -> new RuntimeException("Ticket Divergência não encontrado"));
+
+        var usuario = usersRepository.findById(dados.id_usuario())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        TicketMessage message = new TicketMessage(null,
+                divergencia, usuario, dados.msg(), LocalDateTime.now(),
+                dados.internal());
+
+        TicketMessage ticket = messageRepository.save(message);
+
+        return new TicketMessageDetailsDTO(
+                ticket.getId(),
+                divergencia.getId(),
+                new UserRegistrationDataDTO(usuario.getId(), usuario.getLogin(), usuario.getRole()),
+                ticket.getMessage(),
+                ticket.isInternal(),
+                ticket.getTimestamp()
+        );
+    }
+
+    public List<TicketMessageDetailsDTO> listarMensagensGarantia(Long garantiaId) {
+        var mensagens = messageRepository.findByTicketGarantiaId(garantiaId);
+
+        return mensagens.stream()
+                .map(msg -> new TicketMessageDetailsDTO(
+                        msg.getId(),
+                        msg.getTicketGarantia().getId(),
+                        new UserRegistrationDataDTO(
+                                msg.getId(),
+                                msg.getUsuario().getLogin(),
+                                msg.getUsuario().getRole()
+                        ),
+                        msg.getMessage(),
+                        msg.isInternal(),
+                        msg.getTimestamp()
+                ))
+                .toList();
+    }
+
+    public List<TicketMessageDetailsDTO> listarMensagensDivergencia(Long divergenciaId) {
+        var mensagens = messageRepository.findByTicketDivergenciaId(divergenciaId);
+
+        return mensagens.stream()
+                .map(msg -> new TicketMessageDetailsDTO(
+                        msg.getId(),
+                        msg.getTicketDivergencia().getId(),
+                        new UserRegistrationDataDTO(
+                                msg.getId(),
+                                msg.getUsuario().getLogin(),
+                                msg.getUsuario().getRole()
+                        ),
+                        msg.getMessage(),
+                        msg.isInternal(),
+                        msg.getTimestamp()
+                ))
+                .toList();
+    }
+}
+
+

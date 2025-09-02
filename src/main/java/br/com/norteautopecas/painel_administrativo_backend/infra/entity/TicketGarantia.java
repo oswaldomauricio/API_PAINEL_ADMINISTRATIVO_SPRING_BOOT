@@ -33,6 +33,9 @@ public class TicketGarantia {
     @OneToMany(mappedBy = "ticketGarantia", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "ticketGarantia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TicketMessage> messages = new ArrayList<>();
+
     public TicketGarantia(
             Long id,
             String nomeCliente,
