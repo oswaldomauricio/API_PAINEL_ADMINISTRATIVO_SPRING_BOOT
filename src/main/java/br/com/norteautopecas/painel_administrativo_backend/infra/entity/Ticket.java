@@ -32,8 +32,8 @@ public class Ticket {
     private String descricao;
 
     @Setter
-    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 50, nullable = false)
     private Status status = Status.NOVO;
 
     @CreationTimestamp

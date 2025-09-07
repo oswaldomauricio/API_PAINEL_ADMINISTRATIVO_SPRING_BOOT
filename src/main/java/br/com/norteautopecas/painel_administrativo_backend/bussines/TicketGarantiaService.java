@@ -1,15 +1,9 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Produto;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StoreInformation;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Ticket;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketGarantia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.*;
 import br.com.norteautopecas.painel_administrativo_backend.infra.mapper.TicketGarantiaMapper;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreInformationRepository;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreRepository;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketGarantiaRepository;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.*;
 import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
