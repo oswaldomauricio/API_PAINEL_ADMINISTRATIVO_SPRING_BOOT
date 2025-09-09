@@ -23,7 +23,7 @@ public class TicketGarantiaMapper {
                 tg.getTicket().getDataSolicitacao(),
                 tg.getTicket().getDataAtualizacao(),
                 tg.getTicket().getDiasEmAberto(),
-                tg.getTicket().getStatus(),
+                tg.getStatus(),
                 tg.getProdutos().stream()
                         .map(p -> new ProdutoCreateDTO(
                                 p.getCodigoProduto(),

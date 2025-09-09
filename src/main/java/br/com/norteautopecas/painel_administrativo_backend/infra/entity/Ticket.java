@@ -31,10 +31,6 @@ public class Ticket {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @Setter
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 50, nullable = false)
-    private Status status = Status.NOVO;
 
     @CreationTimestamp
     private LocalDateTime dataSolicitacao = LocalDateTime.now();
@@ -51,8 +47,7 @@ public class Ticket {
             String descricao,
             LocalDateTime dataSolicitacao,
             LocalDateTime dataAtualizacao,
-            Long diasEmAberto,
-            Status status
+            Long diasEmAberto
     ) {
         this.loja = loja;
         this.fornecedor = fornecedor;
@@ -62,7 +57,6 @@ public class Ticket {
         this.dataSolicitacao = dataSolicitacao;
         this.dataAtualizacao = dataAtualizacao;
         this.getDiasEmAberto();
-        this.status = Status.NOVO;
     }
 
     @Transient
@@ -96,10 +90,6 @@ public class Ticket {
 
     public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
-    }
-
-    public Status getStatus() {
-        return status;
     }
 
 

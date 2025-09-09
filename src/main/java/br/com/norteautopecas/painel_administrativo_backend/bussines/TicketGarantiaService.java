@@ -35,7 +35,8 @@ public class TicketGarantiaService {
     private TicketGarantiaMapper ticketGarantiaMapper;
 
     public TicketGarantiaDetailsDTO cadastrarTicket(TicketGarantiaCreateDTO dados) {
-        var loja = storeInformationRepository.findByLoja(dados.loja());
+        var loja = storeInformationRepository.findByLoja(dados.loja())
+                .orElseThrow(() -> new RuntimeException("Loja não encontrada: " + dados.loja()));
 
         var usuarioCadastroTicket = usersRepository.findById(dados.usuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -48,7 +49,6 @@ public class TicketGarantiaService {
                 dados.descricao(),
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                null,
                 null
         );
 
@@ -72,6 +72,8 @@ public class TicketGarantiaService {
                 usuarioCadastroTicket,
                 new ArrayList<>()
         );
+
+        ticketGarantia.setStatus(StatusGarantia.NOVO);
 
         TicketGarantia finalTicketGarantia = ticketGarantia;
         produtos.forEach(p -> p.setTicketGarantia(finalTicketGarantia));

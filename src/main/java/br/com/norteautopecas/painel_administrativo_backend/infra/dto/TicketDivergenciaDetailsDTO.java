@@ -1,6 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Status;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StatusGarantia;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -31,7 +31,7 @@ public record TicketDivergenciaDetailsDTO(
         @JsonProperty("dias_em_aberto")
         Long diasEmAberto,
 
-        Status status,
+        Object status,
 
         List<ProdutoCreateDTO> produtos
 ) {

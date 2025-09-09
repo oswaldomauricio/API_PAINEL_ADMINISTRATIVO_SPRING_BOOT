@@ -19,7 +19,7 @@ public class TicketDivergenciaMapper {
                 ticketDivergencia.getTicket().getDataSolicitacao(),
                 ticketDivergencia.getTicket().getDataAtualizacao(),
                 ticketDivergencia.getTicket().getDiasEmAberto(),
-                ticketDivergencia.getTicket().getStatus(),
+                ticketDivergencia.getStatus(),
                 ticketDivergencia.getProdutos().stream()
                         .map(p -> new ProdutoCreateDTO(
                                 p.getCodigoProduto(),

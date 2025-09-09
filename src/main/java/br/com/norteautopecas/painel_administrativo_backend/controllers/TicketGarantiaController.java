@@ -2,10 +2,8 @@ package br.com.norteautopecas.painel_administrativo_backend.controllers;
 
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketGarantiaService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketMessageService;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketGarantiaCreateDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketGarantiaDetailsDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageCreateDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketStatusHistoricoGarantiaService;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -29,6 +27,8 @@ public class TicketGarantiaController {
     private TicketGarantiaService ticketGarantiaService;
     @Autowired
     private TicketMessageService ticketMessage;
+    @Autowired
+    private TicketStatusHistoricoGarantiaService ticketStatusHistoricoGarantiaService;
 
     @PostMapping
     @Transactional
@@ -62,12 +62,14 @@ public class TicketGarantiaController {
         return ticketGarantiaService.buscarTicketPorId(id);
     }
 
+
+    //listar mensagens por id do ticket de garantia
     @GetMapping({"/mensagem/{id}"})
     public ResponseEntity<List<TicketMessageDetailsDTO>> listarMensagensPorIdDeGarantia(@PathVariable Long id) {
         return ResponseEntity.ok(ticketMessage.listarMensagensGarantia(id));
     }
 
-
+    //envio de mensagem no ticket de garantia
     @PostMapping("/mensagem")
     @Transactional
     public ResponseEntity<TicketMessageDetailsDTO> enviarMensagemPorTicketGarantia(@RequestBody @Valid TicketMessageCreateDTO dados) {
@@ -78,6 +80,30 @@ public class TicketGarantiaController {
 
         return ResponseEntity.created(location).body(ticketMessageDetails);
 
+    }
+
+    //atualizar o status do ticket de garantia
+    @PostMapping("/status/atualizar")
+    public ResponseEntity<TicketStatusHistoricoDetailsDTO> atualizarStatus(
+            @RequestBody TicketStatusHistoricoCreateDTO dados
+    ) {
+        TicketStatusHistoricoDetailsDTO result =
+                ticketStatusHistoricoGarantiaService.atualizarStatusDeTicket(dados);
+        return ResponseEntity.ok(result);
+    }
+
+    //Listar o histórico de status do ticket de garantia
+    @GetMapping("/status/historico")
+    public ResponseEntity<List<TicketStatusHistoricoDetailsDTO>> listarHistorico(@RequestParam Long ticketId) {
+        List<TicketStatusHistoricoDetailsDTO> historicos =
+                ticketStatusHistoricoGarantiaService.listarStatusDeTicket(
+                        new TicketStatusHistoricoListByIdDTO(ticketId)
+                );
+
+        if (historicos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(historicos);
     }
 
 }

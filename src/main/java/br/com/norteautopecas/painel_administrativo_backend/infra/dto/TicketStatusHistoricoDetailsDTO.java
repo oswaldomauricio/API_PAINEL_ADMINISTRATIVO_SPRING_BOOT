@@ -5,7 +5,6 @@ import java.util.Date;
 
 public record TicketStatusHistoricoDetailsDTO(
         Long ticketId,
-        String ticketTipo,
         String statusNovo,
         String mensagem,
         String alteradoPor,

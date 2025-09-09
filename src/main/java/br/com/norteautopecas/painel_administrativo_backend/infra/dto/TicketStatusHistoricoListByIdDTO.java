@@ -7,10 +7,6 @@ import jakarta.validation.constraints.NotNull;
 public record TicketStatusHistoricoListByIdDTO(
         @NotNull
         @JsonAlias({"ticket_id", "ticketId"})
-        Long ticketId,
-
-        @NotBlank
-        @JsonAlias({"ticket_tipo", "ticketTipo"})
-        String ticketTipo
+        Long ticketId
 ) {
 }

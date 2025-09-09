@@ -1,30 +1,22 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketGarantiaDetailsDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ticket_status_historico")
+@Table(name = "ticket_status_historico_garantia")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketStatusHistorico {
+public class TicketStatusHistoricoGarantia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "id_ticket_divergencia")
-    private TicketDivergencia ticketDivergencia;
 
     @ManyToOne
     @JoinColumn(name = "id_ticket_garantia")
@@ -32,7 +24,7 @@ public class TicketStatusHistorico {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 50, nullable = false)
-    private Status status;
+    private StatusGarantia status;
 
     @Column(columnDefinition = "TEXT")
     private String mensagem;
@@ -44,14 +36,12 @@ public class TicketStatusHistorico {
     @CreationTimestamp
     private LocalDateTime dataAtualizacao;
 
-    public TicketStatusHistorico(
-            TicketDivergencia ticketDivergencia,
+    public TicketStatusHistoricoGarantia(
             TicketGarantia ticketGarantia,
-            Status status,
+            StatusGarantia status,
             String mensagem,
             User usuario
     ) {
-        this.ticketDivergencia = ticketDivergencia;
         this.ticketGarantia = ticketGarantia;
         this.status = status;
         this.mensagem = mensagem;

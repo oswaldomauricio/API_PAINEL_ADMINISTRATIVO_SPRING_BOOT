@@ -88,7 +88,9 @@ public class StoreService {
     }
 
     public StoreInformation getStoreByLoja(Integer loja) {
-        var store = storeInformationRepository.findByLoja(loja);
+        var store = storeInformationRepository.findByLoja(loja)
+                .orElseThrow(() -> new RuntimeException("Loja não encontrada: " + loja));
+        ;
         if (store == null) {
             throw new ValidateException("Loja não encontrada com o número: " + loja);
         }

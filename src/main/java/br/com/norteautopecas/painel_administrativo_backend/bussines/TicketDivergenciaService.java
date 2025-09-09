@@ -37,7 +37,8 @@ public class TicketDivergenciaService {
     private UsersRepository usersRepository;
 
     public TicketDivergenciaDetailsDTO cadastrarTicket(TicketDivergenciaCreateDTO dados) {
-        var loja = storeInformationRepository.findByLoja(dados.loja());
+        var loja = storeInformationRepository.findByLoja(dados.loja())
+                .orElseThrow(() -> new RuntimeException("Loja não encontrada: " + dados.loja()));
 
         var usuarioCadastroTicket = usersRepository.findById(dados.usuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
@@ -50,9 +51,7 @@ public class TicketDivergenciaService {
                 dados.descricao(),
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                null,
-                null
-        );
+                null);
 
         List<Produto> produtos = dados.produtos().stream()
                 .map(produtoDTO -> {
@@ -73,6 +72,8 @@ public class TicketDivergenciaService {
                 usuarioCadastroTicket,
                 new ArrayList<>()
         );
+
+        ticketDivergencia.setStatus(StatusDivergencia.NOVO);
 
         TicketDivergencia finalTicketDivergencia = ticketDivergencia;
         produtos.forEach(p -> p.setTicketDivergencia(finalTicketDivergencia));

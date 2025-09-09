@@ -1,9 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Status;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StatusGarantia;
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,9 +12,7 @@ public record TicketStatusHistoricoCreateDTO(
 
         @NotBlank
         @JsonAlias({"status_novo", "status", "statusNovo"})
-        Status status,
-
-        String ticketTipo,
+        String status,
 
         @NotBlank
         String mensagem,

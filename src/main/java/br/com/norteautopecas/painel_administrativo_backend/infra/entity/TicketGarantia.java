@@ -1,10 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.List;
 @Entity(name = "Garantia")
 @Table(name = "ticket_garantia")
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class TicketGarantia {
@@ -29,6 +27,11 @@ public class TicketGarantia {
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
     private User usuario;
+
+    @Setter
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 50, nullable = false)
+    private StatusGarantia status = StatusGarantia.NOVO;
 
     @OneToMany(mappedBy = "ticketGarantia", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
@@ -49,43 +52,4 @@ public class TicketGarantia {
         this.usuario = usuario;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNomeCliente() {
-        return nomeCliente;
-    }
-
-    public void setNomeCliente(String nomeCliente) {
-        this.nomeCliente = nomeCliente;
-    }
-
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
-
-    public User getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(User usuario) {
-        this.usuario = usuario;
-    }
-
-    public List<Produto> getProdutos() {
-        return produtos;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
-    }
 }
