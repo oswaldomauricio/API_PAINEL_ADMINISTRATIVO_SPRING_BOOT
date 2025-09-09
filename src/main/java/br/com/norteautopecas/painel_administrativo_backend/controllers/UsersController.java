@@ -4,7 +4,7 @@ import br.com.norteautopecas.painel_administrativo_backend.bussines.UsersService
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.AuthenticationDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.RegisterUserDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Roles;
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
 import br.com.norteautopecas.painel_administrativo_backend.infra.security.TokenDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.security.TokenService;

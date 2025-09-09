@@ -1,7 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.validations;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StatusDivergencia;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StatusGarantia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusDivergencia;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,4 +1,4 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
+package br.com.norteautopecas.painel_administrativo_backend.infra.enums;
 
 public enum Roles {
     ROLE_USER("ROLE_USER"),

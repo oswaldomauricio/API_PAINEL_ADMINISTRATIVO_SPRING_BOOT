@@ -1,6 +1,5 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StatusGarantia;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

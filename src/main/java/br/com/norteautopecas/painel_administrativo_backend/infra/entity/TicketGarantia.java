@@ -1,5 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
 import jakarta.persistence.*;
 import lombok.*;
 

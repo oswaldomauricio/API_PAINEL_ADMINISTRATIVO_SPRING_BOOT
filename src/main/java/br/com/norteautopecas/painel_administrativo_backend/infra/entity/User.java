@@ -1,7 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

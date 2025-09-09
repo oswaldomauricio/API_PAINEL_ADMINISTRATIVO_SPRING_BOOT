@@ -2,6 +2,7 @@ package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.*;
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.mapper.TicketDivergenciaMapper;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreInformationRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaRepository;

@@ -2,7 +2,7 @@ package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.RegisterUserDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Roles;
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service

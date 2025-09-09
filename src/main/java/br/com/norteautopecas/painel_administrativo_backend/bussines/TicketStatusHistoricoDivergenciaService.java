@@ -3,7 +3,7 @@ package br.com.norteautopecas.painel_administrativo_backend.bussines;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketStatusHistoricoCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketStatusHistoricoDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketStatusHistoricoListByIdDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StatusDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketStatusHistoricoDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
