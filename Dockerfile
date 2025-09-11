@@ -2,10 +2,10 @@ FROM eclipse-temurin:24-jdk
 RUN mkdir /app
 WORKDIR /app
 
-COPY target/painel_administrativo_backend-0.0.1-SNAPSHOT.jar app.jar
+COPY target/*.jar app.jar
 
 ENV SPRING_PROFILES_ACTIVE=prod
-ENV SERVER_PORT=8080
+ENV SERVER_PORT=8081
 ENV DATABASE_HOST=
 ENV DATABASE_PORT=3306
 ENV DATABASE_NAME=PAINEL_ADMINISTRATIVO
