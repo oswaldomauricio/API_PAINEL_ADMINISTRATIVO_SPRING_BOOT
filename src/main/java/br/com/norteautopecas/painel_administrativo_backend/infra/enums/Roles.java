@@ -1,0 +1,54 @@
+package br.com.norteautopecas.painel_administrativo_backend.infra.enums;
+
+public enum Roles {
+    ROLE_USER("ROLE_USER"),
+
+    ROLE_ADMIN("ROLE_ADMIN"),
+
+    ROLE_USER_COMPRAS("ROLE_USER_COMPRAS"),
+
+    ROLE_USER_VENDAS("ROLE_USER_VENDAS"),
+
+    ROLE_USER_FINANCEIRO("ROLE_USER_FINANCEIRO"),
+
+    ROLE_USER_ESTOQUE("ROLE_USER_ESTOQUE"),
+
+    ROLE_USER_TI("ROLE_USER_TI"),
+
+    ROLE_USER_GERENTE("ROLE_USER_GERENTE"),
+
+    ROLE_USER_DIRETOR("ROLE_USER_DIRETOR"),
+
+    ROLE_USER_SUPORTE("ROLE_USER_SUPORTE"),
+
+    ROLE_ADMIN_COMPRAS("ROLE_ADMIN_COMPRAS"),
+
+    ROLE_ADMIN_VENDAS("ROLE_ADMIN_VENDAS"),
+
+    ROLE_ADMIN_FINANCEIRO("ROLE_ADMIN_FINANCEIRO"),
+
+    ROLE_ADMIN_ESTOQUE("ROLE_ADMIN_ESTOQUE"),
+
+    ROLE_ADMIN_TI("ROLE_ADMIN_TI"),
+
+    ROLE_ADMIN_GERENTE("ROLE_ADMIN_GERENTE"),
+
+    ROLE_ADMIN_DIRETOR("ROLE_ADMIN_DIRETOR"),
+
+    ROLE_ADMIN_SUPORTE("ROLE_ADMIN_SUPORTE"),
+
+    ROLE_REGIONAL("ROLE_REGIONAL"),
+
+    ROLE_GERENTE("ROLE_GERENTE");
+
+
+    private final String role;
+
+    Roles(String role) {
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
+}
