@@ -2,10 +2,7 @@ package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +14,7 @@ import java.util.List;
 @Entity(name = "User")
 @Table(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -32,6 +30,9 @@ public class User implements UserDetails {
     private String senha;
 
     @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Roles role;
 
@@ -39,45 +40,13 @@ public class User implements UserDetails {
 
     private LocalDateTime updatedAt;
 
-    public User(String login, String senha) {
+    public User(String login, String senha, String email, Roles role) {
         this.id = null;
         this.login = login;
         this.senha = senha;
-        this.role = Roles.ROLE_USER;
+        this.email = email;
+        this.role = role == null ? Roles.ROLE_USER : role;
         this.createdAt = LocalDateTime.now();
-    }
-
-    public Roles getRole() {
-        return role;
-    }
-
-    public void setRole(Roles role) {
-        this.role = role;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override

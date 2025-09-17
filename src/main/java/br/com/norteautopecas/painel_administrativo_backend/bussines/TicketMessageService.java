@@ -1,6 +1,5 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketGarantiaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
@@ -46,7 +45,9 @@ public class TicketMessageService {
         return new TicketMessageDetailsDTO(
                 ticket.getId(),
                 garantia.getId(),
-                new UserRegistrationDataDTO(usuario.getId(), usuario.getLogin(), usuario.getRole()),
+                new UserRegistrationDataDTO(usuario.getId(),
+                        usuario.getLogin(), usuario.getEmail(),
+                        usuario.getRole()),
                 ticket.getMessage(),
                 ticket.isInternal(),
                 ticket.getTimestamp()
@@ -69,7 +70,9 @@ public class TicketMessageService {
         return new TicketMessageDetailsDTO(
                 ticket.getId(),
                 divergencia.getId(),
-                new UserRegistrationDataDTO(usuario.getId(), usuario.getLogin(), usuario.getRole()),
+                new UserRegistrationDataDTO(usuario.getId(),
+                        usuario.getLogin(), usuario.getEmail(),
+                        usuario.getRole()),
                 ticket.getMessage(),
                 ticket.isInternal(),
                 ticket.getTimestamp()
@@ -86,6 +89,7 @@ public class TicketMessageService {
                         new UserRegistrationDataDTO(
                                 msg.getId(),
                                 msg.getUsuario().getLogin(),
+                                msg.getUsuario().getEmail(),
                                 msg.getUsuario().getRole()
                         ),
                         msg.getMessage(),
@@ -105,6 +109,7 @@ public class TicketMessageService {
                         new UserRegistrationDataDTO(
                                 msg.getId(),
                                 msg.getUsuario().getLogin(),
+                                msg.getUsuario().getEmail(),
                                 msg.getUsuario().getRole()
                         ),
                         msg.getMessage(),

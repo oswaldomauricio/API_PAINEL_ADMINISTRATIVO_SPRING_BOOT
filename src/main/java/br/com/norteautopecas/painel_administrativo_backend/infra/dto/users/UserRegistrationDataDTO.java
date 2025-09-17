@@ -5,6 +5,7 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
 public record UserRegistrationDataDTO(
         Long id,
         String login,
+        String email,
         Roles role
 ) {
 }
