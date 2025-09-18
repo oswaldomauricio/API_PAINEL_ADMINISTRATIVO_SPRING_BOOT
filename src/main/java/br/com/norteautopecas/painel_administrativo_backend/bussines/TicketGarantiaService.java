@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -34,6 +35,9 @@ public class TicketGarantiaService {
 
     @Autowired
     private TicketGarantiaMapper ticketGarantiaMapper;
+
+    @Autowired
+    private EmailService emailService;
 
     public TicketGarantiaDetailsDTO cadastrarTicket(TicketGarantiaCreateDTO dados) {
         var loja = storeInformationRepository.findByLoja(dados.loja())
@@ -81,6 +85,33 @@ public class TicketGarantiaService {
         ticketGarantia.getProdutos().addAll(produtos);
 
         ticketGarantia = ticketGarantiaRepository.save(ticketGarantia);
+
+        //aqui eu criei uma forma pra personalizar os produtos para aparecer
+        // legal no email.
+        String produtosHtml = ticketGarantia.getProdutos().stream()
+                .map(prod -> "<li>" + prod.getCodigoProduto() + " - Qtd: " + prod.getQuantidade() + "</li>")
+                .reduce("", (acc, item) -> acc + item);
+
+        produtosHtml = "<ul>" + produtosHtml + "</ul>";
+
+        Map<String, String> variaveis = Map.of(
+                "ticketId", ticketGarantia.getId().toString(),
+                "tipo", "Garantia",
+                "loja", ticketGarantia.getTicket().getLoja().getLoja().toString(),
+                "fornecedor", ticketGarantia.getTicket().getFornecedor(),
+                "data",
+                ticketGarantia.getTicket().getDataAtualizacao().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                "usuario", ticketGarantia.getUsuario().getLogin(),
+                "descricao", ticketGarantia.getTicket().getDescricao(),
+                "produtos", produtosHtml
+        );
+
+        emailService.enviarEmailHtml(
+                usuarioCadastroTicket.getEmail(),
+                "TICKET GARANTIA - " + ticketGarantia.getId() + " | NOVO TICKET CRIADO",
+                variaveis,
+                "template-email-criando-ticket.html"
+        );
 
         return ticketGarantiaMapper.toDetailsDTO(ticketGarantia);
     }

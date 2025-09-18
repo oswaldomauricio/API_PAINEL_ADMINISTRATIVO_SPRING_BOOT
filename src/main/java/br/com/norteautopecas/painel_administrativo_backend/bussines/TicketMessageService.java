@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TicketMessageService {
@@ -27,6 +28,8 @@ public class TicketMessageService {
     private TicketDivergenciaRepository divergenciaRepository;
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    private EmailService emailService;
 
 
     public TicketMessageDetailsDTO adicionarMensagemGarantia(TicketMessageCreateDTO dados) {
@@ -41,6 +44,25 @@ public class TicketMessageService {
                 dados.internal());
 
         TicketMessage ticket = messageRepository.save(message);
+
+        Map<String, String> variaveis = Map.of(
+                "ticketId", ticket.getId().toString(),
+                "status", ticket.getTicketGarantia().getStatus().toString(),
+                "mensagem", message.getMessage(),
+                "data",
+                message.getTimestamp().format((java.time.format.DateTimeFormatter.ofPattern(
+                        "dd/MM/yyyy"))),
+                "usuario", message.getUsuario().getLogin()
+        );
+
+        if (!message.isInternal()) {
+            emailService.enviarEmailHtml(
+                    usuario.getEmail(),
+                    "TICKET GARANTIA - " + garantia.getId() + " | NOVA MENSAGEM ENVIADA",
+                    variaveis,
+                    "template-email-atualizacao-status.html"
+            );
+        }
 
         return new TicketMessageDetailsDTO(
                 ticket.getId(),
@@ -66,6 +88,27 @@ public class TicketMessageService {
                 dados.internal());
 
         TicketMessage ticket = messageRepository.save(message);
+
+        Map<String, String> variaveis = Map.of(
+                "ticketId", ticket.getId().toString(),
+                "status", ticket.getTicketDivergencia().getStatus().toString(),
+                "mensagem", message.getMessage(),
+                "data",
+                message.getTimestamp().format((java.time.format.DateTimeFormatter.ofPattern(
+                        "dd/MM/yyyy"))),
+                "usuario", message.getUsuario().getLogin()
+        );
+
+        if (!message.isInternal()) {
+            emailService.enviarEmailHtml(
+                    usuario.getEmail(),
+                    "TICKET DIVERGÊNCIA - " + divergencia.getId() + " | NOVA " +
+                            "MENSAGEM " +
+                            "ENVIADA",
+                    variaveis,
+                    "template-email-atualizacao-status.html"
+            );
+        }
 
         return new TicketMessageDetailsDTO(
                 ticket.getId(),
