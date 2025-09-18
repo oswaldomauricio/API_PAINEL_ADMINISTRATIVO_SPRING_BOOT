@@ -52,7 +52,7 @@ public class UsersController {
 
         var uri = builder.path("/register/{id}").buildAndExpand(user.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new UserRegistrationDataDTO(user.getId(), user.getLogin(), user.getRole()));
+        return ResponseEntity.created(uri).body(new UserRegistrationDataDTO(user.getId(), user.getLogin(), user.getEmail(), user.getRole()));
     }
 
     @PutMapping("/user/alterarRegra/{id}")
@@ -65,6 +65,24 @@ public class UsersController {
         UserRegistrationDataDTO dto = usersService.alterarRegraDeUsuario(id, role);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping("/user/alterarEmail/{id}")
+    @Transactional
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity<UserRegistrationDataDTO> alterarEmailUsuario(
+            @PathVariable Long id,
+            @RequestParam String email) {
+
+        UserRegistrationDataDTO dto = usersService.alterarEmailUsuario(id, email);
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/users")
+    @SecurityRequirement(name = "bearer-key")
+    public ResponseEntity listarUsuarios() {
+        return ResponseEntity.ok(usersService.ListarUsuarios());
     }
 
 

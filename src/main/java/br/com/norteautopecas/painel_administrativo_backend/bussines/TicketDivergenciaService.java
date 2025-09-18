@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -36,6 +37,9 @@ public class TicketDivergenciaService {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public TicketDivergenciaDetailsDTO cadastrarTicket(TicketDivergenciaCreateDTO dados) {
         var loja = storeInformationRepository.findByLoja(dados.loja())
@@ -81,6 +85,31 @@ public class TicketDivergenciaService {
         ticketDivergencia.getProdutos().addAll(produtos);
 
         ticketDivergencia = ticketDivergenciaRepository.save(ticketDivergencia);
+
+        String produtosHtml = ticketDivergencia.getProdutos().stream()
+                .map(prod -> "<li>" + prod.getCodigoProduto() + " - Qtd: " + prod.getQuantidade() + "</li>")
+                .reduce("", (acc, item) -> acc + item);
+
+        produtosHtml = "<ul>" + produtosHtml + "</ul>";
+
+        Map<String, String> variaveis = Map.of(
+                "ticketId", ticketDivergencia.getId().toString(),
+                "tipo", "Divergência",
+                "loja", ticketDivergencia.getTicket().getLoja().getLoja().toString(),
+                "fornecedor", ticketDivergencia.getTicket().getFornecedor(),
+                "data",
+                ticketDivergencia.getTicket().getDataAtualizacao().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                "usuario", ticketDivergencia.getUsuario().getLogin(),
+                "descricao", ticketDivergencia.getTicket().getDescricao(),
+                "produtos", produtosHtml
+        );
+
+        emailService.enviarEmailHtml(
+                usuarioCadastroTicket.getEmail(),
+                "TICKET DIVERGÊNCIA - " + ticketDivergencia.getId() + " | NOVO TICKET CRIADO",
+                variaveis,
+                "template-email-criando-ticket.html"
+        );
 
         return ticketDivergenciaMapper.toDetailsDTO(ticketDivergencia);
     }

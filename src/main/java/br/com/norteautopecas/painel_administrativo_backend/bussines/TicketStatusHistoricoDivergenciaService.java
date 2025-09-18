@@ -1,5 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketStatusHistoricoCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketStatusHistoricoDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketStatusHistoricoListByIdDTO;
@@ -31,6 +32,9 @@ public class TicketStatusHistoricoDivergenciaService {
 
     @Autowired
     private List<IValidateStatusDivergencia> validadores;
+
+    @Autowired
+    private TicketMessageService ticketMessageService;
 
     public TicketStatusHistoricoDetailsDTO atualizarStatusDeTicket(TicketStatusHistoricoCreateDTO dados) {
         var usuario = usersRepository.findById(dados.idUser())
@@ -68,6 +72,28 @@ public class TicketStatusHistoricoDivergenciaService {
 
         ticketDivergencia.setStatus(historico.getStatus());
         ticketDivergenciaRepository.save(ticketDivergencia);
+
+        //enviar atualização de status nas mensagens.
+        String templateMensagem = """
+                Novo status: :status
+                Mensagem: :mensagem
+                Data Atualização: :data
+                """;
+
+        String mensagemFinal = templateMensagem
+                .replace(":status", dados.status())
+                .replace(":mensagem", historico.getMensagem())
+                .replace(":data", historico.getDataAtualizacao()
+                        .format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+        var dadosAdicionarMensagem = new TicketMessageCreateDTO(
+                ticketDivergencia.getId(),
+                usuario.getId(),
+                mensagemFinal,
+                false
+        );
+
+        ticketMessageService.adicionarMensagemGarantia(dadosAdicionarMensagem);
 
         return new TicketStatusHistoricoDetailsDTO(
                 historico.getTicketDivergencia().getId(),

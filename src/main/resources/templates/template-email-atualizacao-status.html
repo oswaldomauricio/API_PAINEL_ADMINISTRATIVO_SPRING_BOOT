@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: #ffffff;
+            margin: auto;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .mensagem {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f1f1f1;
+            border-radius: 6px;
+        }
+        .rodape {
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Ticket | <b>{{ticketId}}</b></h2>
+
+    <div class="mensagem">
+        <p><b>Status atual do ticket:</b> {{status}}</p>
+        <p><b>Data da atualização:</b> {{data}}</p>
+        <p><b>Usuário:</b> {{usuario}}</p>
+        <div style="
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 15px;
+                margin: 10px 0;
+                background-color: #f9f9f9;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        ">
+            <p><b>Mensagem:</b>
+                {{mensagem}}
+        </div>
+        </p>
+    </div>
+
+    <div class="rodape">
+        <p>Este e-mail foi gerado automaticamente pelo sistema, não responda!</p>
+    </div>
+</div>
+</body>
+</html>
