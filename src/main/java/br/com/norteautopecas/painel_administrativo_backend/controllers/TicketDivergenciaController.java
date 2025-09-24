@@ -3,7 +3,14 @@ package br.com.norteautopecas.painel_administrativo_backend.controllers;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketDivergenciaService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketMessageService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketStatusHistoricoDivergenciaService;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaFilterDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoListByIdDTO;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -41,21 +48,13 @@ public class TicketDivergenciaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TicketDivergenciaDetailsDTO>> consultarTickets(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<TicketDivergenciaDetailsDTO>> consultarTicketsPassandoFiltros(
+            TicketDivergenciaFilterDTO filtro,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<TicketDivergenciaDetailsDTO> ticketsPaginados = ticketDivergenciaService.buscarTodosTickets(pageable);
+        Page<TicketDivergenciaDetailsDTO> ticketsPaginados =
+                ticketDivergenciaService.buscarTodosTickets(filtro, pageable);
         return ResponseEntity.ok(ticketsPaginados);
-    }
-
-    @GetMapping("/loja/{loja}")
-    public ResponseEntity<Page<TicketDivergenciaDetailsDTO>> consultarTicketsPorLoja(@PathVariable Integer loja, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-
-        return ResponseEntity.ok(ticketDivergenciaService.buscarTicketsPorLoja(loja, pageable));
-    }
-
-    @GetMapping({"/{id}"})
-    public ResponseEntity<TicketDivergenciaDetailsDTO> consultarTicketPorId(@PathVariable Long id) {
-        return ticketDivergenciaService.buscarTicketPorId(id);
     }
 
     //listar mensagens por id do ticket de garantia

@@ -3,7 +3,14 @@ package br.com.norteautopecas.painel_administrativo_backend.controllers;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketGarantiaService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketMessageService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketStatusHistoricoGarantiaService;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaFilterDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoListByIdDTO;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -42,26 +49,14 @@ public class TicketGarantiaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TicketGarantiaDetailsDTO>> consultarTickets(
+    public ResponseEntity<Page<TicketGarantiaDetailsDTO>> consultarTicketsPassandoFiltros(
+            TicketGarantiaFilterDTO filtro,
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<TicketGarantiaDetailsDTO> ticketsPaginados = ticketGarantiaService.buscarTodosTickets(pageable);
+        Page<TicketGarantiaDetailsDTO> ticketsPaginados =
+                ticketGarantiaService.buscarTodosTickets(filtro, pageable);
         return ResponseEntity.ok(ticketsPaginados);
     }
-
-    @GetMapping("/loja/{loja}")
-    public ResponseEntity<Page<TicketGarantiaDetailsDTO>> consultarTicketsPorLoja(
-            @PathVariable Integer loja,
-            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-
-        return ResponseEntity.ok(ticketGarantiaService.buscarTicketsPorLoja(loja, pageable));
-    }
-
-    @GetMapping({"/{id}"})
-    public ResponseEntity<TicketGarantiaDetailsDTO> consultarTicketPorId(@PathVariable Long id) {
-        return ticketGarantiaService.buscarTicketPorId(id);
-    }
-
 
     //listar mensagens por id do ticket de garantia
     @GetMapping({"/mensagem/{id}"})

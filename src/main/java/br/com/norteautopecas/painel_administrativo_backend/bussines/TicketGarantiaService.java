@@ -1,11 +1,12 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaFilterDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.*;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.mapper.TicketGarantiaMapper;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.*;
-import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,8 @@ public class TicketGarantiaService {
 
     @Autowired
     private TicketGarantiaMapper ticketGarantiaMapper;
+
+    private TicketGarantiaSpecifications ticketSpecifications;
 
     @Autowired
     private EmailService emailService;
@@ -116,36 +119,22 @@ public class TicketGarantiaService {
         return ticketGarantiaMapper.toDetailsDTO(ticketGarantia);
     }
 
-    public ResponseEntity<TicketGarantiaDetailsDTO> buscarTicketPorId(Long id) {
+    public Page<TicketGarantiaDetailsDTO> buscarTodosTickets(
+            TicketGarantiaFilterDTO filtro,
+            Pageable pageable) {
 
-        if (id == null || id <= 0) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<TicketGarantia> ticketGarantia =
-                ticketGarantiaRepository.findById(id);
-
-        if (ticketGarantia.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(ticketGarantiaMapper.toDetailsDTO(ticketGarantia.get()));
-    }
-
-    public Page<TicketGarantiaDetailsDTO> buscarTodosTickets(Pageable pageable) {
-        Page<TicketGarantia> ticketsPage = ticketGarantiaRepository.findAll(pageable);
+        Page<TicketGarantia> ticketsPage =
+                ticketGarantiaRepository.findAll(
+                        TicketGarantiaSpecifications.fornecedorContains(filtro.fornecedor())
+                                .and(TicketGarantiaSpecifications.ticketIdEqual(filtro.ticketId()))
+                                .and(TicketGarantiaSpecifications.nomeClienteContains(filtro.nomeCliente()))
+                                .and(TicketGarantiaSpecifications.cpfCnpjEquals(filtro.cpfCnpj()))
+                                .and(TicketGarantiaSpecifications.notaEquals(filtro.nota()))
+                                .and(TicketGarantiaSpecifications.dataSolicitacaoBetween(filtro.dataInicio(), filtro.dataFim()))
+                                .and(TicketGarantiaSpecifications.statusEquals(filtro.status()))
+                                .and(TicketGarantiaSpecifications.lojaEquals(filtro.loja())),
+                        pageable);
 
         return ticketsPage.map(ticketGarantiaMapper::toDetailsDTO);
     }
-
-    public Page<TicketGarantiaDetailsDTO> buscarTicketsPorLoja(Integer loja, Pageable pageable) {
-        if (loja == null || loja <= 0) {
-            throw new ValidateException("Loja não informada");
-        }
-
-        StoreInformation storeInformation = storeService.getStoreByLoja(loja);
-
-        Page<TicketGarantia> ticketsPage = ticketGarantiaRepository.findByTicket_Loja(storeInformation, pageable);
-        return ticketsPage.map(ticketGarantiaMapper::toDetailsDTO);
-    }
-
 }
