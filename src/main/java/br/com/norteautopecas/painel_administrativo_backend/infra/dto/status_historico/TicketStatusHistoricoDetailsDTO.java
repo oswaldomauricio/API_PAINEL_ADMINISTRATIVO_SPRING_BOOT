@@ -1,7 +1,4 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
-
-import java.time.LocalDate;
-import java.util.Date;
+package br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico;
 
 public record TicketStatusHistoricoDetailsDTO(
         Long ticketId,

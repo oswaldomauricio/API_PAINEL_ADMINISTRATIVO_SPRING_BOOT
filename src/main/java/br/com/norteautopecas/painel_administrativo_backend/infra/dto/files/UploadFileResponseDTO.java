@@ -1,4 +1,4 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
+package br.com.norteautopecas.painel_administrativo_backend.infra.dto.files;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 

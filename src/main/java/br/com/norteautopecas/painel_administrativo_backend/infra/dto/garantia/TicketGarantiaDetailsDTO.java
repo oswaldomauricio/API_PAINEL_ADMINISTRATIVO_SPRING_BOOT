@@ -1,5 +1,6 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
+package br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.produto.ProdutoCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,10 +1,10 @@
 package br.com.norteautopecas.painel_administrativo_backend.controllers;
 
 import br.com.norteautopecas.painel_administrativo_backend.bussines.StoreService;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListStoreByUserDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListStoreInformationDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.RegisterStoreDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.StoreRegistrationDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas.ListStoreByUserDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas.ListStoreInformationDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas.RegisterStoreDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas.StoreRegistrationDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;

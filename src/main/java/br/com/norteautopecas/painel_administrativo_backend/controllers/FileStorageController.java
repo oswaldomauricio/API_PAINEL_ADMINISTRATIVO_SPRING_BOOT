@@ -1,9 +1,8 @@
 package br.com.norteautopecas.painel_administrativo_backend.controllers;
 
 import br.com.norteautopecas.painel_administrativo_backend.bussines.FileStorageService;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListarFilesPorTicketIdDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketDivergenciaDetailsDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.UploadFileResponseDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.files.ListarFilesPorTicketIdDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.files.UploadFileResponseDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketFiles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileNotFoundException;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketFilesRepository;
@@ -24,9 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
