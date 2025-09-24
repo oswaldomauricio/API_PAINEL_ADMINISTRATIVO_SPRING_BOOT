@@ -1,10 +1,9 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
+package br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 public record RegisterStoreDTO(
         @NotNull(message = "o Campo loja é obrigatório")

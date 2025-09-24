@@ -1,9 +1,9 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListStoreByUserDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ListStoreInformationDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.RegisterStoreDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.StoreRegistrationDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas.ListStoreByUserDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas.ListStoreInformationDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas.RegisterStoreDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas.StoreRegistrationDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Store;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StoreInformation;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreInformationRepository;

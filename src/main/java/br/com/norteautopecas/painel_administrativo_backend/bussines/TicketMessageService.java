@@ -1,7 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageCreateDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketMessageDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketGarantia;

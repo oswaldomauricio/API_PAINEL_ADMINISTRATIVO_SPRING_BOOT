@@ -1,7 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.mapper;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ProdutoCreateDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketGarantiaDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.produto.ProdutoCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketGarantia;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.mapper;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.ProdutoCreateDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.TicketDivergenciaDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.produto.ProdutoCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
 import org.springframework.stereotype.Component;
 

@@ -1,11 +1,14 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.*;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaCreateDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaDetailsDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaFilterDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.*;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.mapper.TicketDivergenciaMapper;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreInformationRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaSpecifications;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +41,11 @@ public class TicketDivergenciaService {
     @Autowired
     private UsersRepository usersRepository;
 
+    private TicketDivergenciaSpecifications ticketSpecifications;
+
     @Autowired
     private EmailService emailService;
+
 
     public TicketDivergenciaDetailsDTO cadastrarTicket(TicketDivergenciaCreateDTO dados) {
         var loja = storeInformationRepository.findByLoja(dados.loja())
@@ -114,37 +120,21 @@ public class TicketDivergenciaService {
         return ticketDivergenciaMapper.toDetailsDTO(ticketDivergencia);
     }
 
-    public ResponseEntity<TicketDivergenciaDetailsDTO> buscarTicketPorId(Long id) {
+    public Page<TicketDivergenciaDetailsDTO> buscarTodosTickets(
+            TicketDivergenciaFilterDTO filtro,
+            Pageable pageable) {
 
-        if (id == null || id <= 0) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<TicketDivergencia> ticketDivergencia =
-                ticketDivergenciaRepository.findById(id);
-
-        if (ticketDivergencia.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(ticketDivergenciaMapper.toDetailsDTO(ticketDivergencia.get()));
-    }
-
-    public Page<TicketDivergenciaDetailsDTO> buscarTodosTickets(Pageable pageable) {
-        Page<TicketDivergencia> ticketsPage = ticketDivergenciaRepository.findAll(pageable);
+        Page<TicketDivergencia> ticketsPage = ticketDivergenciaRepository.findAll(
+                TicketDivergenciaSpecifications.fornecedorContains(filtro.fornecedor())
+                        .and(TicketDivergenciaSpecifications.ticketIdEqual(filtro.ticketId()))
+                        .and(TicketDivergenciaSpecifications.cpfCnpjEquals(filtro.cpfCnpj()))
+                        .and(TicketDivergenciaSpecifications.notaEquals(filtro.nota()))
+                        .and(TicketDivergenciaSpecifications.dataSolicitacaoBetween(filtro.dataInicio(), filtro.dataFim()))
+                        .and(TicketDivergenciaSpecifications.statusEquals(filtro.status()))
+                        .and(TicketDivergenciaSpecifications.lojaEquals(filtro.loja())),
+                pageable);
 
         return ticketsPage.map(ticketDivergenciaMapper::toDetailsDTO);
     }
-
-    public Page<TicketDivergenciaDetailsDTO> buscarTicketsPorLoja(Integer loja, Pageable pageable) {
-        if (loja == null || loja <= 0) {
-            throw new ValidateException("Loja não informada");
-        }
-
-        StoreInformation storeInformation = storeService.getStoreByLoja(loja);
-
-        Page<TicketDivergencia> ticketsPage = ticketDivergenciaRepository.findByTicket_Loja(storeInformation, pageable);
-        return ticketsPage.map(ticketDivergenciaMapper::toDetailsDTO);
-    }
-
 
 }

@@ -1,6 +1,4 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
-
-import com.fasterxml.jackson.annotation.JsonAlias;
+package br.com.norteautopecas.painel_administrativo_backend.infra.dto.lojas;
 
 public record ListStoreInformationDTO(
         Integer loja,

@@ -1,4 +1,4 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
+package br.com.norteautopecas.painel_administrativo_backend.infra.dto.produto;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Tipo;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,11 +1,17 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
+package br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia;
 
+
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.produto.ProdutoCreateDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 
 import java.util.List;
 
-public record TicketDivergenciaCreateDTO(
+public record TicketGarantiaCreateDTO(
+        @JsonProperty("nome_cliente")
+        @NotBlank(message = "o Campo nome do cliente é obrigatório")
+        String nomeCliente,
+
         @NotNull(message = "o Campo loja é obrigatório")
         @Min(value = 100, message = "A loja deve ter no mínimo 3 dígitos")
         @Max(value = 999, message = "A loja deve ter no máximo 3 dígitos")
@@ -34,4 +40,5 @@ public record TicketDivergenciaCreateDTO(
         @NotEmpty(message = "Não é possível criar um ticket sem produtos")
         List<ProdutoCreateDTO> produtos
 ) {
+
 }

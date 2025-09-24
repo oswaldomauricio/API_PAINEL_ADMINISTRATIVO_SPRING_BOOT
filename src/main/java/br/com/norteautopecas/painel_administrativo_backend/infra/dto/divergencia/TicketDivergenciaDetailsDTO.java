@@ -1,5 +1,6 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.dto;
+package br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.produto.ProdutoCreateDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
