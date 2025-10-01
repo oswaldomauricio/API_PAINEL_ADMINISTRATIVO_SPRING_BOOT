@@ -3,6 +3,7 @@ package br.com.norteautopecas.painel_administrativo_backend.controllers;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketGarantiaService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketMessageService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketStatusHistoricoGarantiaService;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.EstatisticasTicketGarantiaDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaFilterDTO;
@@ -100,5 +101,11 @@ public class TicketGarantiaController {
         }
         return ResponseEntity.ok(historicos);
     }
+
+    @GetMapping("/estatisticas/{loja}")
+    public ResponseEntity<EstatisticasTicketGarantiaDTO> estatisticasTicketGarantia(@PathVariable Integer loja) {
+        return ResponseEntity.ok(ticketGarantiaService.estatisticasTicketGarantia(loja));
+    }
+
 
 }

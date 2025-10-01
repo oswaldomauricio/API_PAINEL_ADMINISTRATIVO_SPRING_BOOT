@@ -1,5 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.EstatisticasTicketGarantiaDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaFilterDTO;
@@ -7,6 +8,7 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.entity.*;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.mapper.TicketGarantiaMapper;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TicketGarantiaService {
@@ -136,5 +135,37 @@ public class TicketGarantiaService {
                         pageable);
 
         return ticketsPage.map(ticketGarantiaMapper::toDetailsDTO);
+    }
+
+    public EstatisticasTicketGarantiaDTO estatisticasTicketGarantia(Integer loja) {
+        Integer totalTickets;
+        Integer ticketsAbertos;
+        Integer ticketsEmAndamento;
+        Integer ticketsConcluidos;
+
+        StoreInformation store =
+                storeInformationRepository.findByLoja(loja).orElseThrow(() -> new EntityNotFoundException("Loja não encontrada: " + loja));
+
+        totalTickets = ticketGarantiaRepository.countByTicket_Loja(store);
+        ticketsAbertos =
+                ticketGarantiaRepository.countByTicket_LojaAndStatus(store,
+                        StatusGarantia.NOVO);
+
+        List<StatusGarantia> excludedStatuses =
+                Arrays.asList(StatusGarantia.NOVO, StatusGarantia.CONCLUIDO,
+                        StatusGarantia.CANCELADO);
+        ticketsEmAndamento =
+                ticketGarantiaRepository.countByTicket_LojaAndStatusNotIn(store, excludedStatuses);
+
+        ticketsConcluidos = ticketGarantiaRepository.countByTicket_LojaAndStatus(store,
+                StatusGarantia.CONCLUIDO);
+
+
+        return new EstatisticasTicketGarantiaDTO(
+                totalTickets,
+                ticketsAbertos,
+                ticketsEmAndamento,
+                ticketsConcluidos
+        );
     }
 }
