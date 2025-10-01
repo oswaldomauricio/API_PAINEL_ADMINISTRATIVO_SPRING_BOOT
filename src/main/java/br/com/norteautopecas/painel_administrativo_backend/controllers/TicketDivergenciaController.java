@@ -3,9 +3,11 @@ package br.com.norteautopecas.painel_administrativo_backend.controllers;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketDivergenciaService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketMessageService;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.TicketStatusHistoricoDivergenciaService;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.EstatisticasTicketDivergenciaDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaFilterDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.EstatisticasTicketGarantiaDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoCreateDTO;
@@ -94,4 +96,10 @@ public class TicketDivergenciaController {
         }
         return ResponseEntity.ok(historicos);
     }
+
+    @GetMapping("/estatisticas/{loja}")
+    public ResponseEntity<EstatisticasTicketDivergenciaDTO> estatisticasTicketGarantia(@PathVariable Integer loja) {
+        return ResponseEntity.ok(ticketDivergenciaService.estatisticasTicketDivergencia(loja));
+    }
+
 }

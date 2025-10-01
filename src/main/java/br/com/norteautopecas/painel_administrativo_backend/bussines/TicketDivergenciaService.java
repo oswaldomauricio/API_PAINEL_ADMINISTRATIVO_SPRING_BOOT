@@ -1,16 +1,20 @@
 package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.EstatisticasTicketDivergenciaDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaFilterDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.EstatisticasTicketGarantiaDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.*;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.mapper.TicketDivergenciaMapper;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.StoreInformationRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketDivergenciaSpecifications;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,10 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TicketDivergenciaService {
@@ -135,6 +136,45 @@ public class TicketDivergenciaService {
                 pageable);
 
         return ticketsPage.map(ticketDivergenciaMapper::toDetailsDTO);
+    }
+
+    public EstatisticasTicketDivergenciaDTO estatisticasTicketDivergencia(Integer loja) {
+        Integer totalTickets;
+        Integer ticketsAbertos;
+        Integer ticketsEmAndamento;
+        Integer ticketsConcluidos;
+        Integer ticketsCancelados;
+
+        StoreInformation store =
+                storeInformationRepository.findByLoja(loja).orElseThrow(() -> new EntityNotFoundException("Loja não encontrada: " + loja));
+
+        totalTickets = ticketDivergenciaRepository.countByTicket_Loja(store);
+        ticketsAbertos =
+                ticketDivergenciaRepository.countByTicket_LojaAndStatus(store,
+                        StatusDivergencia.NOVO);
+
+        List<StatusDivergencia> excludedStatuses =
+                Arrays.asList(StatusDivergencia.NOVO, StatusDivergencia.CONCLUIDO,
+                        StatusDivergencia.CANCELADO);
+        ticketsEmAndamento =
+                ticketDivergenciaRepository.countByTicket_LojaAndStatusNotIn(store, excludedStatuses);
+
+        ticketsConcluidos = ticketDivergenciaRepository.countByTicket_LojaAndStatus(store,
+                StatusDivergencia.CONCLUIDO);
+
+
+        ticketsCancelados =
+                ticketDivergenciaRepository.countByTicket_LojaAndStatus(store,
+                        StatusDivergencia.CANCELADO);
+
+
+        return new EstatisticasTicketDivergenciaDTO(
+                totalTickets,
+                ticketsAbertos,
+                ticketsEmAndamento,
+                ticketsConcluidos,
+                ticketsCancelados
+        );
     }
 
 }
