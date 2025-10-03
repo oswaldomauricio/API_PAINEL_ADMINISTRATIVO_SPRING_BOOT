@@ -10,6 +10,9 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.repository.Tick
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketGarantiaRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketMessageRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,9 @@ public class TicketMessageService {
     @Autowired
     private EmailService emailService;
 
+    private static Logger logger =
+            LoggerFactory.getLogger(TicketMessageService.class);
+
 
     public TicketMessageDetailsDTO adicionarMensagemGarantia(TicketMessageCreateDTO dados) {
         TicketGarantia garantia = garantiaRepository.findById(dados.ticketId())
@@ -46,7 +52,7 @@ public class TicketMessageService {
         TicketMessage ticket = messageRepository.save(message);
 
         Map<String, String> variaveis = Map.of(
-                "ticketId", ticket.getId().toString(),
+                "ticketId", garantia.getId().toString(),
                 "status", ticket.getTicketGarantia().getStatus().toString(),
                 "mensagem", message.getMessage(),
                 "data",
@@ -63,6 +69,8 @@ public class TicketMessageService {
                     "template-email-atualizacao-status.html"
             );
         }
+
+        logger.info("Email de mensagem de garantia enviado para: " + usuario.getEmail());
 
         return new TicketMessageDetailsDTO(
                 ticket.getId(),
@@ -90,7 +98,7 @@ public class TicketMessageService {
         TicketMessage ticket = messageRepository.save(message);
 
         Map<String, String> variaveis = Map.of(
-                "ticketId", ticket.getId().toString(),
+                "ticketId", divergencia.getId().toString(),
                 "status", ticket.getTicketDivergencia().getStatus().toString(),
                 "mensagem", message.getMessage(),
                 "data",
@@ -109,6 +117,8 @@ public class TicketMessageService {
                     "template-email-atualizacao-status.html"
             );
         }
+
+        logger.info("Email de mensagem de divergencia enviado para: " + usuario.getEmail());
 
         return new TicketMessageDetailsDTO(
                 ticket.getId(),

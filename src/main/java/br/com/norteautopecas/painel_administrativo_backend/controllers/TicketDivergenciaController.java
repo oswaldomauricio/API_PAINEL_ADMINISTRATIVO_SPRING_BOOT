@@ -7,7 +7,6 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.divergencia.TicketDivergenciaFilterDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.EstatisticasTicketGarantiaDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageCreateDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.message.TicketMessageDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoCreateDTO;
@@ -59,7 +58,7 @@ public class TicketDivergenciaController {
         return ResponseEntity.ok(ticketsPaginados);
     }
 
-    //listar mensagens por id do ticket de garantia
+    //listar mensagens por id do ticket de divergencia
     @GetMapping({"/mensagem/{id}"})
     public ResponseEntity<List<TicketMessageDetailsDTO>> listarMensagensPorIdDeDivergencia(@PathVariable Long id) {
         return ResponseEntity.ok(ticketMessage.listarMensagensDivergencia(id));
@@ -79,14 +78,14 @@ public class TicketDivergenciaController {
 
     }
 
-    //atualizar o status do ticket de garantia
+    //atualizar o status do ticket de divergencia
     @PostMapping("/status/atualizar")
     public ResponseEntity<TicketStatusHistoricoDetailsDTO> atualizarStatus(@RequestBody TicketStatusHistoricoCreateDTO dados) {
         TicketStatusHistoricoDetailsDTO result = ticketStatusHistoricoDivergenciaService.atualizarStatusDeTicket(dados);
         return ResponseEntity.ok(result);
     }
 
-    //Listar o histórico de status do ticket de garantia
+    //Listar o histórico de status do ticket de divergencia
     @GetMapping("/status/historico")
     public ResponseEntity<List<TicketStatusHistoricoDetailsDTO>> listarHistorico(@RequestParam Long ticketId) {
         List<TicketStatusHistoricoDetailsDTO> historicos = ticketStatusHistoricoDivergenciaService.listarStatusDeTicket(new TicketStatusHistoricoListByIdDTO(ticketId));
@@ -98,7 +97,7 @@ public class TicketDivergenciaController {
     }
 
     @GetMapping("/estatisticas/{loja}")
-    public ResponseEntity<EstatisticasTicketDivergenciaDTO> estatisticasTicketGarantia(@PathVariable Integer loja) {
+    public ResponseEntity<EstatisticasTicketDivergenciaDTO> estatisticasTicketDivergencia(@PathVariable Integer loja) {
         return ResponseEntity.ok(ticketDivergenciaService.estatisticasTicketDivergencia(loja));
     }
 

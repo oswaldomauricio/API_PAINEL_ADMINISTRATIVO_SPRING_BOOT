@@ -93,7 +93,7 @@ public class TicketStatusHistoricoDivergenciaService {
                 false
         );
 
-        ticketMessageService.adicionarMensagemGarantia(dadosAdicionarMensagem);
+        ticketMessageService.adicionarMensagemDivergencia(dadosAdicionarMensagem);
 
         return new TicketStatusHistoricoDetailsDTO(
                 historico.getTicketDivergencia().getId(),
