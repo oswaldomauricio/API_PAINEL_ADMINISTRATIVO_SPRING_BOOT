@@ -63,14 +63,14 @@ public class TicketMessageService {
 
         if (!message.isInternal()) {
             emailService.enviarEmailHtml(
-                    usuario.getEmail(),
+                    garantia.getUsuario().getEmail(),
                     "TICKET GARANTIA - " + garantia.getId() + " | NOVA MENSAGEM ENVIADA",
                     variaveis,
                     "template-email-atualizacao-status.html"
             );
         }
 
-        logger.info("Email de mensagem de garantia enviado para: " + usuario.getEmail());
+        logger.info("Email de mensagem de garantia enviado paraaa: " + garantia.getUsuario().getEmail());
 
         return new TicketMessageDetailsDTO(
                 ticket.getId(),
@@ -109,7 +109,7 @@ public class TicketMessageService {
 
         if (!message.isInternal()) {
             emailService.enviarEmailHtml(
-                    usuario.getEmail(),
+                    divergencia.getUsuario().getEmail(),
                     "TICKET DIVERGÊNCIA - " + divergencia.getId() + " | NOVA " +
                             "MENSAGEM " +
                             "ENVIADA",
