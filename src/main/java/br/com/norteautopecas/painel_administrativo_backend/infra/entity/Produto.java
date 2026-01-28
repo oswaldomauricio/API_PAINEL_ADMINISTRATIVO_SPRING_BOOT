@@ -1,5 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketGarantia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Tipo;
 import jakarta.persistence.*;
 
