@@ -1,9 +1,7 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
+package br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

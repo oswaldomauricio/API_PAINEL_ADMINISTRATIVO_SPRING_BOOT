@@ -3,7 +3,7 @@ package br.com.norteautopecas.painel_administrativo_backend.controllers;
 import br.com.norteautopecas.painel_administrativo_backend.bussines.FileStorageService;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.files.ListarFilesPorTicketIdDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.files.UploadFileResponseDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketFiles;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketFiles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileNotFoundException;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketFilesRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

@@ -5,7 +5,7 @@ import java.nio.file.*;
 import br.com.norteautopecas.painel_administrativo_backend.config.FileStorageConfig;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.files.ListarFilesPorTicketIdDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.files.UploadFileResponseDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketFiles;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketFiles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileNotFoundException;
 import br.com.norteautopecas.painel_administrativo_backend.infra.exception.FileStorageException;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketFilesRepository;

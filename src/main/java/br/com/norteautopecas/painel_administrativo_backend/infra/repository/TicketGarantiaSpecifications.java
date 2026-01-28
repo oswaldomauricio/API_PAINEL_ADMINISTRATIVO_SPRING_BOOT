@@ -1,7 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.repository;
 
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketGarantia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketGarantia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.domain.Specification;

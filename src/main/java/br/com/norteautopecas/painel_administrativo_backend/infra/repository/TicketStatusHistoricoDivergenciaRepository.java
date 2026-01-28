@@ -1,7 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.repository;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketStatusHistoricoDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketStatusHistoricoDivergencia;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

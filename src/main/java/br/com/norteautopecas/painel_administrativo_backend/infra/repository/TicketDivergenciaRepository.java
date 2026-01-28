@@ -1,7 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.repository;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StoreInformation;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusDivergencia;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

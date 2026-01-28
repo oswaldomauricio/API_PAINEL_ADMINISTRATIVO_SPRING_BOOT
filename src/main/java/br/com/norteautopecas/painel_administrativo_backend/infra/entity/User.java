@@ -32,8 +32,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Roles role;
 
     private LocalDateTime createdAt = LocalDateTime.now();

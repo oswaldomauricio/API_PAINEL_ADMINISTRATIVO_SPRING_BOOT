@@ -1,5 +1,6 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
+package br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets;
 
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.StoreInformation;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

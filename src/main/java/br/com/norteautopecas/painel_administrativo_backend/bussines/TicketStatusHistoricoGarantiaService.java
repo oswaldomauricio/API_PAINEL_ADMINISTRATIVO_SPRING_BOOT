@@ -5,7 +5,7 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_hist
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.status_historico.TicketStatusHistoricoListByIdDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketStatusHistoricoGarantia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketStatusHistoricoGarantia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketGarantiaRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.TicketStatusHistoricoGarantiaRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;

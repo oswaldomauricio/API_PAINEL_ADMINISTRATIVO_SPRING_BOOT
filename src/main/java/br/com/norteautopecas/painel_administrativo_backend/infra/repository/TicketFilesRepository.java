@@ -1,6 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.repository;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketFiles;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketFiles;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

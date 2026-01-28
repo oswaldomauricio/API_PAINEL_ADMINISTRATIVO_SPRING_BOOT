@@ -1,25 +1,26 @@
-package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
+package br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
+
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Produto;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
+import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusDivergencia;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "Garantia")
-@Table(name = "ticket_garantia")
+@Entity(name = "Divergencia")
+@Table(name = "ticket_divergencia")
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class TicketGarantia {
+public class TicketDivergencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String nomeCliente;
 
     @Embedded
     @AttributeOverride(name = "loja", column = @Column(name = "id_loja"))
@@ -32,23 +33,21 @@ public class TicketGarantia {
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 50, nullable = false)
-    private StatusGarantia status = StatusGarantia.NOVO;
+    private StatusDivergencia status = StatusDivergencia.NOVO;
 
-    @OneToMany(mappedBy = "ticketGarantia", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ticketDivergencia", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "ticketGarantia", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ticketDivergencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TicketMessage> messages = new ArrayList<>();
 
-    public TicketGarantia(
+    public TicketDivergencia(
             Long id,
-            String nomeCliente,
             Ticket ticket,
             User usuario,
             List<Produto> produtos
     ) {
         this.id = null;
-        this.nomeCliente = nomeCliente;
         this.ticket = ticket;
         this.usuario = usuario;
     }

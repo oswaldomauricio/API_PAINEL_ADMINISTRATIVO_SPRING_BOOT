@@ -1,7 +1,7 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.repository;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketGarantia;
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketStatusHistoricoGarantia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketGarantia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketStatusHistoricoGarantia;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

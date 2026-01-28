@@ -5,6 +5,8 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.Ti
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaDetailsDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.garantia.TicketGarantiaFilterDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.*;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.Ticket;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketGarantia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusGarantia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.mapper.TicketGarantiaMapper;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.*;
@@ -12,7 +14,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

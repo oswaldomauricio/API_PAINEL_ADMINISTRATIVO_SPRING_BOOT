@@ -1,6 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.repository;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.entity.TicketDivergencia;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.tickets.TicketDivergencia;
 import br.com.norteautopecas.painel_administrativo_backend.infra.enums.StatusDivergencia;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.domain.Specification;
