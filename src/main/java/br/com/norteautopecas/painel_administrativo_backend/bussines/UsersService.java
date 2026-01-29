@@ -2,9 +2,10 @@ package br.com.norteautopecas.painel_administrativo_backend.bussines;
 
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.RegisterUserDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Roles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.caixa.rolesRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,27 @@ public class UsersService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private rolesRepository rolesRepository;
+
+
 
     public User registerUser(RegisterUserDTO dados) {
         if (usersRepository.existsByLogin(dados.login())) {
             throw new ValidateException("Usuário já cadastrado com o login: " + dados.login());
         }
 
+        if (dados.roleId() == null) {
+            throw new ValidateException("O id da regra de usuário não pode " +
+                    "ser vazio.");
+        }
+
         String senhaCriptografada = passwordEncoder.encode(dados.senha());
 
-        User user = new User(dados.login(), senhaCriptografada, dados.email(), dados.role());
+        Roles role = rolesRepository.findById(dados.roleId())
+                .orElseThrow(() -> new RuntimeException("Role não encontrada"));
+
+        User user = new User(dados.login(), senhaCriptografada, dados.email(), role);
 
         usersRepository.save(user);
         return user;
@@ -51,7 +64,7 @@ public class UsersService {
 
         return new UserRegistrationDataDTO(user.getId(), user.getLogin(),
                 user.getEmail(),
-                user.getRole());
+                user.getRole().getName());
     }
 
     public UserRegistrationDataDTO alterarEmailUsuario(Long id, String newEmail) {
@@ -66,7 +79,7 @@ public class UsersService {
 
         return new UserRegistrationDataDTO(user.getId(), user.getLogin(),
                 user.getEmail(),
-                user.getRole());
+                user.getRole().getName());
     }
 
     public List<UserRegistrationDataDTO> ListarUsuarios() {
@@ -79,11 +92,15 @@ public class UsersService {
 
         users.stream()
                 .map(u -> {
-                    return new User(u.getId(), u.getLogin(), u.getSenha(), u.getEmail(), u.getRole(), u.getCreatedAt(), u.getUpdatedAt());
+                    return new User(u.getId(), u.getLogin(), u.getSenha(),
+                            u.getEmail(), u.getRole(),
+                            u.getCreatedAt(),
+                            u.getUpdatedAt());
                 }).toList();
 
         return users.stream()
-                .map(u -> new UserRegistrationDataDTO(u.getId(), u.getLogin(), u.getEmail(), u.getRole()))
+                .map(u -> new UserRegistrationDataDTO(u.getId(), u.getLogin()
+                        , u.getEmail(), u.getRole().getName()))
                 .collect(Collectors.toList());
     }
 

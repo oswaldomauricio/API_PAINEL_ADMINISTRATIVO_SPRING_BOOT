@@ -4,7 +4,8 @@ import br.com.norteautopecas.painel_administrativo_backend.bussines.UsersService
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.AuthenticationDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.RegisterUserDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserRegistrationDataDTO;
-import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
+
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Roles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
 import br.com.norteautopecas.painel_administrativo_backend.infra.security.TokenDTO;
 import br.com.norteautopecas.painel_administrativo_backend.infra.security.TokenService;
@@ -39,7 +40,7 @@ public class UsersController {
         var usuario = (User) auth.getPrincipal();
 
         return ResponseEntity.ok(new TokenDTO(tokenJWT, usuario.getLogin(),
-                usuario.getRole(), usuario.getId()));
+                usuario.getRole().getName(), usuario.getId()));
 
     }
 
@@ -52,7 +53,7 @@ public class UsersController {
 
         var uri = builder.path("/register/{id}").buildAndExpand(user.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new UserRegistrationDataDTO(user.getId(), user.getLogin(), user.getEmail(), user.getRole()));
+        return ResponseEntity.created(uri).body(new UserRegistrationDataDTO(user.getId(), user.getLogin(), user.getEmail(), user.getRole().getName()));
     }
 
     @PutMapping("/user/alterarRegra/{id}")
