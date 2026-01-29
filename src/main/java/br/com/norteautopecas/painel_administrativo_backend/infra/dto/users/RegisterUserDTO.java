@@ -1,6 +1,6 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.dto.users;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
+import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Roles;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,6 +15,6 @@ public record RegisterUserDTO(
         @Email
         String email,
 
-        Roles role
+        Long roleId
 ) {
 }

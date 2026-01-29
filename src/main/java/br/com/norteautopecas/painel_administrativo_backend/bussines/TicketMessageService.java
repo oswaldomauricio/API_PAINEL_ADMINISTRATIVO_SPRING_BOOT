@@ -76,7 +76,7 @@ public class TicketMessageService {
                 garantia.getId(),
                 new UserRegistrationDataDTO(usuario.getId(),
                         usuario.getLogin(), usuario.getEmail(),
-                        usuario.getRole()),
+                        usuario.getRole().getName()),
                 ticket.getMessage(),
                 ticket.isInternal(),
                 ticket.getTimestamp()
@@ -124,7 +124,7 @@ public class TicketMessageService {
                 divergencia.getId(),
                 new UserRegistrationDataDTO(usuario.getId(),
                         usuario.getLogin(), usuario.getEmail(),
-                        usuario.getRole()),
+                        usuario.getRole().getName()),
                 ticket.getMessage(),
                 ticket.isInternal(),
                 ticket.getTimestamp()
@@ -142,7 +142,7 @@ public class TicketMessageService {
                                 msg.getId(),
                                 msg.getUsuario().getLogin(),
                                 msg.getUsuario().getEmail(),
-                                msg.getUsuario().getRole()
+                                msg.getUsuario().getRole().getName()
                         ),
                         msg.getMessage(),
                         msg.isInternal(),
@@ -162,7 +162,7 @@ public class TicketMessageService {
                                 msg.getId(),
                                 msg.getUsuario().getLogin(),
                                 msg.getUsuario().getEmail(),
-                                msg.getUsuario().getRole()
+                                msg.getUsuario().getRole().getName()
                         ),
                         msg.getMessage(),
                         msg.isInternal(),

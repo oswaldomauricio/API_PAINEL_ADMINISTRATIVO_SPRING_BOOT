@@ -5,7 +5,7 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
 public record TokenDTO(
         String token,
         String nome,
-        Roles role,
+        String role,
         Long id
 ) {
 }
