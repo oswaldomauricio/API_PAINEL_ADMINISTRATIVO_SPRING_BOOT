@@ -1,6 +1,5 @@
 package br.com.norteautopecas.painel_administrativo_backend.infra.entity;
 
-import br.com.norteautopecas.painel_administrativo_backend.infra.enums.Roles;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,17 +40,20 @@ public class User implements UserDetails {
     private LocalDateTime updatedAt;
 
     public User(String login, String senha, String email, Roles role) {
-        this.id = null;
         this.login = login;
         this.senha = senha;
         this.email = email;
-        this.role = role == null ? Roles.ROLE_USER : role;
+        this.role = role;
         this.createdAt = LocalDateTime.now();
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return role.getPermissions()
+                .stream()
+                .map(p -> new SimpleGrantedAuthority(p.getPermission()))
+                .toList();
     }
 
     @Override

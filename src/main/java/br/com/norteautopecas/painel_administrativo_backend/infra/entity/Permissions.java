@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Permissions {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String permission;
+
     private LocalDateTime createdAt = LocalDateTime.now();
-
     private LocalDateTime updatedAt;
-
-    private String permission ;
 }
