@@ -5,7 +5,7 @@ import br.com.norteautopecas.painel_administrativo_backend.infra.dto.users.UserR
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.Roles;
 import br.com.norteautopecas.painel_administrativo_backend.infra.entity.User;
 import br.com.norteautopecas.painel_administrativo_backend.infra.repository.UsersRepository;
-import br.com.norteautopecas.painel_administrativo_backend.infra.repository.caixa.rolesRepository;
+import br.com.norteautopecas.painel_administrativo_backend.infra.repository.RolesRepository;
 import br.com.norteautopecas.painel_administrativo_backend.infra.validations.ValidateException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UsersService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private rolesRepository rolesRepository;
+    private RolesRepository rolesRepository;
 
 
 
@@ -52,14 +52,22 @@ public class UsersService {
 
     }
 
-    public UserRegistrationDataDTO alterarRegraDeUsuario(Long id, Roles novaRole) {
+    public UserRegistrationDataDTO alterarRegraDeUsuario(Long id,
+                                                         Long novaRole) {
         User user = usersRepository.findById(id)
                 .orElseThrow(() -> new ValidateException("Usuário não encontrado com o ID: " + id));
 
-        if (!user.getRole().equals(novaRole)) {
+        Roles role =
+                rolesRepository.findById(novaRole).orElseThrow(() -> new ValidateException("Regra não encontrada"));
+
+        if (!user.getRole().getId().equals(novaRole)) {
             user.setUpdatedAt(LocalDateTime.now());
-            user.setRole(novaRole);
+            user.setRole(role);
             user = usersRepository.save(user);
+        }else {
+            throw new ValidateException("Usuário ja tem essa mesma regra " +
+                    "cadastrada, " +
+                    "favor, alterar para outra!");
         }
 
         return new UserRegistrationDataDTO(user.getId(), user.getLogin(),

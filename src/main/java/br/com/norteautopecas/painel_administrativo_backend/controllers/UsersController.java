@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -61,9 +62,10 @@ public class UsersController {
     @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<UserRegistrationDataDTO> alterarRegraDeUsuario(
             @PathVariable Long id,
-            @RequestParam Roles role) {
+            @RequestParam Long roleId) {
 
-        UserRegistrationDataDTO dto = usersService.alterarRegraDeUsuario(id, role);
+        UserRegistrationDataDTO dto = usersService.alterarRegraDeUsuario(id,
+                roleId);
 
         return ResponseEntity.ok(dto);
     }
